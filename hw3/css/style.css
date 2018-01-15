@@ -1,0 +1,182 @@
+body, html, main{
+  height: 100%;
+}
+
+#main-header>.center {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.address {
+  margin-top: 20px;
+}
+
+.banner {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  font-family: Arial;
+  color: rgb(188, 155, 93);
+  position: relative;
+  text-align: center;
+  font-size: 50px;
+  letter-spacing: 15px;
+}
+
+.nav-main {
+  border: 2px;
+  border-color: black;
+}
+
+.nav-main ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-top: 1px solid #000;
+  text-align: center;
+}
+
+.nav-main ul li {
+  display: inline;
+}
+
+.nav-main ul li a {
+  display: inline-block;
+  color: inherit;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.content {
+  padding-left: 10%;
+  padding-right: 10%;
+  /* position: absolute; */
+}
+
+.flexbox {
+  column-count: 2;
+  -moz-column-count: 2;
+  column-gap: normal;
+  /* break-inside: avoid-column; */
+  height: 1200px;
+}
+
+.image-wrap {
+  padding: 20px;
+  margin: 20px;
+  /* width: 40%; */
+  /* float: left; */
+  /* position: absolute; */
+}
+
+.image-wrap img {
+  width: 100%;
+}
+
+.text-wrap {
+  page-break-inside: avoid;
+  break-inside: avoid-column;
+  /* width: 50%; */
+  /* float: left; */
+  /* position: absolute; */
+}
+
+#image1 {
+  margin-top: 30px;
+  left: 10px;
+  /* float: left; */
+}
+
+#text1 {
+  padding: 10px;
+  margin-bottom: 30px;
+  /* left: 50%; */
+  /* float: right; */
+}
+
+#image2 {
+  /* float: right; */
+  /* left: 50%; */
+}
+
+#image3 {
+  /* float: left; */
+  /* left: 10px; */
+}
+
+#image4 {
+  /* float: right; */
+  /* left: 50%; */
+}
+
+#text2 {
+  /* float: left; */
+  /* left: 10px; */
+}
+
+.order-wrap {
+  display: flex;
+  position: relative;
+}
+
+.order-wrap > img {
+  margin: auto;
+  display: block;
+}
+
+.white_block {
+  top: 50%;
+  left: 50%;
+  height: 150px;
+  width: 200px;
+  margin-top: -75px;
+  margin-left: -100px;
+  background-color: white;
+  position: absolute;
+  text-align: center;
+}
+
+.fixed_bg {
+  min-height: 100%;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.bg1 {
+  background-image: url("../img/image6.jpg");
+}
+
+.bg2 {
+  background-image: url("../img/image5.jpg");
+}
+
+.url {
+  text-align: center;
+  margin: auto;
+}
+
+.slogan {
+  text-align: center;
+  width: 800px;
+  margin: auto;
+}
+
+footer {
+  background-color: rgb(188, 155, 93);
+  padding-bottom: 100px;
+}
+
+.licence p{
+  color: white;
+  padding: 0px;
+  margin: 0px;
+}
+
+.licence {
+  padding-left: 70%;
+  padding-top: 20px;
+  position: relative;
+}
