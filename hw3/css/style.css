@@ -3,23 +3,34 @@ body, html, main{
 }
 
 #main-header>.center {
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 13%;
+  padding-right: 13%;
+  padding-bottom: 50px;
+}
+
+p {
+  color: rgb(125, 125, 125);
+  font-family: helvetica;
 }
 
 .address {
   margin-top: 20px;
 }
 
+.address p {
+  font-family: "Microsoft Sans Serif";
+  font-size: small;
+}
+
 .banner {
   margin-top: 10px;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   font-family: Arial;
   color: rgb(188, 155, 93);
   position: relative;
   text-align: center;
-  font-size: 50px;
-  letter-spacing: 15px;
+  font-size: 60px;
+  letter-spacing: 10px;
 }
 
 .nav-main {
@@ -32,7 +43,7 @@ body, html, main{
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border-top: 1px solid #000;
+  border-top: 1px solid rgb(236, 236, 236);
   text-align: center;
 }
 
@@ -42,32 +53,35 @@ body, html, main{
 
 .nav-main ul li a {
   display: inline-block;
-  color: inherit;
+  color:  rgb(125, 125, 125);
   text-align: center;
-  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  margin-left: 70px;
+  margin-right: 70px;
   text-decoration: none;
+  font-family: "Microsoft Sans Serif";
+
 }
 
 .content {
   padding-left: 10%;
   padding-right: 10%;
+  padding-top: 30px;
   /* position: absolute; */
 }
 
 .flexbox {
   column-count: 2;
   -moz-column-count: 2;
-  column-gap: normal;
+  column-gap: 0px;
   /* break-inside: avoid-column; */
-  height: 1200px;
+  height: 1280px;
 }
 
 .image-wrap {
   padding: 20px;
-  margin: 20px;
-  /* width: 40%; */
-  /* float: left; */
-  /* position: absolute; */
+  /* margin: 20px; */
 }
 
 .image-wrap img {
@@ -77,20 +91,20 @@ body, html, main{
 .text-wrap {
   page-break-inside: avoid;
   break-inside: avoid-column;
-  /* width: 50%; */
-  /* float: left; */
-  /* position: absolute; */
+  padding: 20px;
 }
 
 #image1 {
-  margin-top: 30px;
-  left: 10px;
+  margin-top: 70px;
+  /* left: 10px; */
   /* float: left; */
 }
 
 #text1 {
   padding: 10px;
-  margin-bottom: 30px;
+  padding-left: 30px;
+  margin-bottom: 70px;
+  width: 400px;
   /* left: 50%; */
   /* float: right; */
 }
@@ -112,12 +126,52 @@ body, html, main{
 
 #text2 {
   /* float: left; */
+  /* padding:  */
+  width: 360px;
   /* left: 10px; */
+}
+
+.text-heading {
+  font-size: 36px;
+  color: rgb(188, 155, 93);
+  font-family: "Baskerville Regular";
+  font-style: italic;
+  /* font-weight: bold; */
+  margin-top: 10px;
+  margin-bottom: 18px;
+}
+
+.text-paragraph {
+  margin: 0;
+  font-family: arial;
+  font-size: 18px;
+}
+
+#text1 .text-heading {
+  width: 320px;
+}
+
+#text2 .text-paragraph {
+  width: 320px;
+}
+
+.capital {
+  /* font-family: helvetica; */
+  letter-spacing: 2px;
+  font-size: 12px;
+  margin: 0px;
+}
+
+.read-more > a {
+  text-decoration: none;
+  color: black;
 }
 
 .order-wrap {
   display: flex;
   position: relative;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 
 .order-wrap > img {
@@ -129,12 +183,25 @@ body, html, main{
   top: 50%;
   left: 50%;
   height: 150px;
-  width: 200px;
+  width: 390px;
   margin-top: -75px;
-  margin-left: -100px;
+  margin-left: -195px;
   background-color: white;
   position: absolute;
   text-align: center;
+  display: flex;
+}
+
+.order-online {
+  font-size: 36px;
+  font-family: Baskerville;
+  /* color: black; */
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+.white_block .text-wrap {
+  margin: auto;
 }
 
 .fixed_bg {
@@ -146,6 +213,8 @@ body, html, main{
 }
 
 .bg1 {
+  min-height: 53%;
+  background-size: 160% 100%;
   background-image: url("../img/image6.jpg");
 }
 
@@ -160,23 +229,29 @@ body, html, main{
 
 .slogan {
   text-align: center;
-  width: 800px;
+  /* width: 800px; */
+  padding-left: 20px;
+  padding-right: 20px;
   margin: auto;
+  margin-bottom: 50px;
+
 }
 
 footer {
   background-color: rgb(188, 155, 93);
+  padding-top: 50px;
   padding-bottom: 100px;
 }
 
 .licence p{
   color: white;
+  font-size: 12px;
   padding: 0px;
   margin: 0px;
 }
 
 .licence {
-  padding-left: 70%;
-  padding-top: 20px;
+  margin-left: 70%;
+  /* padding-top: 50px; */
   position: relative;
 }
