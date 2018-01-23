@@ -14,7 +14,7 @@ body {
 
 p {
   color: rgb(125, 125, 125);
-  font-family: helvetica;
+  font-family: helvetica, arial, sans-serif;
 }
 
 .address {
@@ -25,14 +25,14 @@ p {
 }
 
 .address p {
-  font-family: "Microsoft Sans Serif";
+  font-family: "Microsoft Sans Serif", arial, sans-serif;
   font-size: small;
 }
 
 .banner {
   margin-top: 10px;
   /* margin-bottom: 50px; */
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   color: rgb(188, 155, 93);
   position: relative;
   text-align: center;
@@ -68,8 +68,12 @@ p {
   margin-right: 70px;
   text-decoration: none;
   font-size: 14px;
-  font-family: "Microsoft Sans Serif";
+  font-family: "Microsoft Sans Serif", arial, sans-serif;
 
+}
+
+#home {
+  color: rgb(188, 155, 93);
 }
 
 .content {
@@ -104,60 +108,44 @@ p {
 
 #image1 {
   margin-top: 70px;
-  /* left: 10px; */
-  /* float: left; */
 }
 
 #text1 {
   padding: 10px;
   padding-left: 35px;
   margin-bottom: 50px;
-  width: 400px;
-  /* left: 50%; */
-  /* float: right; */
-}
-
-#image2 {
-  /* float: right; */
-  /* left: 50%; */
-}
-
-#image3 {
-  /* float: left; */
-  /* left: 10px; */
-}
-
-#image4 {
-  /* float: right; */
-  /* left: 50%; */
+  width: 360px;
+  /* line-height: normal; */
 }
 
 #text2 {
-  /* float: left; */
-  /* padding:  */
   width: 360px;
   margin-top: 30px;
-  /* left: 10px; */
 }
 
 .text-heading {
-  font-size: 36px;
+  font-size: 30px;
   color: rgb(188, 155, 93);
-  font-family: "Baskerville Regular";
+  font-family: "Libre Baskerville", "Baskerville regular", serif;
   font-style: italic;
+  letter-spacing: 1px;
   /* font-weight: bold; */
   margin-top: 10px;
   margin-bottom: 5px;
+  font-weight: 6Fnav
+  00;
 }
 
 .text-paragraph {
   margin: 0;
-  font-family: arial;
+  font-family: arial, sans-serif;
   font-size: 16px;
+  line-height: 18px;
 }
 
 #text1 .text-heading {
   width: 320px;
+  margin-bottom: 15px;
 }
 
 #text2 .text-paragraph {
@@ -218,7 +206,7 @@ p {
 
 .order-online {
   font-size: 34px;
-  font-family: Baskerville;
+  font-family: Baskerville, serif;
   color: rgb(100, 100, 100);
   margin-top: 5px;
   margin-bottom: 0px;
@@ -242,11 +230,11 @@ p {
   background-position: -375px 50px;
   background-clip: content-box;
   background-size: 1940px 1180px;
-  background-image: url("../img/image6.jpg");
+  background-image: url("http://cs-server.usc.edu:45678/hw/hw3/images/image6.jpg");
 }
 
 .bg2 {
-  background-image: url("../img/image5.jpg");
+  background-image: url("http://cs-server.usc.edu:45678/hw/hw3/images/image5.jpg");
   opacity: 0.8;
   height: 480px;
   width: 1193px;
@@ -262,7 +250,7 @@ p {
 
 .slogan {
   text-align: center;
-  /* width: 800px; */
+  width: 900px;
   padding-left: 20px;
   padding-right: 20px;
   margin: auto;
