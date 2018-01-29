@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Xiaoyi He">
+    <title>parse json</title>
+    <script type="text/javascript">
+      var jsonFile;
+      function loadJson(url, callback) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.overrideMimeType('application/json');
+        xmlhttp.open("GET", url, true);
+        xmlhttp.onreadystatechange = function () {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == '200') {
+            callback(xmlhttp.responseText);
+          }
+        }
+        xmlhttp.send(null);
+      }
+      loadJson('./truckinglist.json', function (response) {
+        var json = JSON.parse(response);
+        document.getElementById('json').innerHTML = json.Mainline.Table.Header.Data;
+      });
+    </script>
+  </head>
+  <body>
+    <p id="json"></p>
+  </body>
+</html>
