@@ -27,10 +27,12 @@
         xmlhttp.onerror = function () {
           alert("Network error!");
         }
-        xmlhttp.open("GET", url, false);
-        xmlhttp.send();
-        console.log(xmlhttp.responseText);
-        // TODO: add error handle
+        try {
+          xmlhttp.open("GET", url, false);
+          xmlhttp.send();
+        } catch (error) {
+          // alert("The json file not exists! Please check your input!");
+        }
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
           json = JSON.parse(xmlhttp.responseText);
         }
@@ -130,7 +132,7 @@
         }
         var json = loadJson(url);
         if (json == null) {
-          alert("Can't find input json file!");
+          alert("The json file not exists! Please check your input!");
           return;
         }
         htmlText = MakeHTML(json);
