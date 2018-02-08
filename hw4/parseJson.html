@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="referrer" content="no-referrer">
     <meta name="author" content="Xiaoyi He">
     <title>parse json</title>
     <style>
@@ -30,13 +31,13 @@
         try {
           xmlhttp.open("GET", url, false);
           xmlhttp.send();
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            json = JSON.parse(xmlhttp.responseText);
+          }
+          else {
+            json = null;
+          }
         } catch (error) {
-          // alert("The json file not exists! Please check your input!");
-        }
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          json = JSON.parse(xmlhttp.responseText);
-        }
-        else {
           json = null;
         }
         return json;
@@ -105,7 +106,7 @@
       }
 
       function MakeHTML(json) {
-        htmlText = "<!DOCTYPE html><html><head><title>Top Trucking Companies</title></head><body>";
+        htmlText = "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='referrer' content='no-referrer'><title>Top Trucking Companies</title></head><body>";
         htmlText += "<table border=1><tbody>";
         // write the headers
         htmlText += "<tr>";
@@ -132,7 +133,11 @@
         }
         var json = loadJson(url);
         if (json == null) {
-          alert("The json file not exists! Please check your input!");
+          alert("Can not load json file! Please check your input!");
+          return;
+        }
+        if (!json.Mainline.Table.hasOwnProperty("Row")) {
+          alert("The json file contain no trucking company!");
           return;
         }
         htmlText = MakeHTML(json);
