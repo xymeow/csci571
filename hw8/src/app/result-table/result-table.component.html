@@ -1,0 +1,32 @@
+<div id="results-div" *ngIf="showResult">
+  <div id="details-btn">
+    <button class="btn btn-outline-secondary">Details<i class="fas fa-angle-right"></i></button>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Category</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Favorite</th>
+        <th scope="col">Details</th>
+      </tr>
+    </thead>
+   <tbody>
+    <tr *ngFor="let rowdata of resultJson; index as i">
+      <th scope="row">{{i}}</th>
+      <td><img src={{rowdata.icon}} alt="icon" class="category-icon"></td>
+      <td>{{rowdata.name}}</td>
+      <td>{{rowdata.vicinity}}</td>
+      <td><button type="button" class="btn btn-light"><i class="fas fa-star"></i></button></td>
+      <td><button type="button" class="btn btn-light"><i class="fas fa-angle-right"></i></button></td>
+    </tr>
+   </tbody>
+  </table>
+  <div id="pagination" *ngIf="nextPage">
+      <button class="btn btn-outline-secondary" (click)="getNextPage()">Next</button>
+  </div>
+</div>
+
+

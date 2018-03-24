@@ -1,0 +1,21 @@
+#pagination {
+    margin: auto;
+    margin-top: 30px;
+    text-align: center;
+}
+
+#results-div {
+    width: 1100px;
+    margin: auto;
+    margin-top: 30px;
+}
+
+#details-btn {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.category-icon {
+    width: 40px;
+    height: 40px;
+}
