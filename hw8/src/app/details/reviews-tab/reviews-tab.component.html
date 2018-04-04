@@ -1,0 +1,48 @@
+<p>
+  reviews-tab works!
+</p>
+<div id="review-div">
+  <div class="row">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="choose-review" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">{{reviewTypes[selectedReviewType]}}</button>
+      <div class="dropdown-menu" aria-labelledby="choose-review">
+        <a *ngFor="let type of reviewTypes; index as i" (click)="setReviewType(i)" class="dropdown-item">{{type}}</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="choose-order" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">{{orderTypes[selectedOrderType]}}</button>
+      <div class="dropdown-menu" aria-labelledby="choose-order">
+        <a *ngFor="let type of orderTypes; index as i" (click)="setOrderType(i)" class="dropdown-item">{{type}}</a>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedReviewType == 0 && ggReviews" id="gg-reviews">
+    <div *ngFor="let review of ggReviews" class="review card">
+      <div class="avatar">
+        <img [src]="review.profile_photo_url">
+      </div>
+      <div>
+        <a [href]="review.authro_url">{{review.author_name}}</a>
+        <span>{{review.rating}}</span>
+        <span>{{review.relative_time_description}}</span>
+        <div>{{review.text}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedReviewType == 1 && yelpReviews" id="yelp-reviews">
+    <div *ngFor="let review of yelpReviews" class="review card">
+      <div class="avatar">
+        <img [src]="review.user.image_url">
+      </div>
+      <div>
+        <a [href]="review.url">{{review.user.name}}</a>
+        <span>{{review.rating}}</span>
+        <span>{{review.time_created}}</span>
+        <div>{{review.text}}</div>
+      </div>
+    </div>
+  </div>
+</div>

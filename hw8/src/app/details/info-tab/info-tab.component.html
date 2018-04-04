@@ -1,0 +1,34 @@
+<div id="info-div" *ngIf="info">
+  <table class="table table-striped">
+    <tbody>
+      <tr *ngIf="info.address">
+        <th scope="row">Address</th>
+        <td>{{info.address}}</td>
+      </tr>
+      <tr *ngIf="info.phoneNumber">
+        <th scope="row">Phone Number</th>
+        <td>{{info.phoneNumber}}</td>
+      </tr>
+      <tr *ngIf="info.priceLevel">
+        <th scope="row">Price Level</th>
+        <td>{{priceLevelMap[info.priceLevel]}}</td>
+      </tr>
+      <tr *ngIf="info.rating">
+        <th scope="row">Rating</th>
+        <td>{{info.rating}}</td>
+      </tr>
+      <tr *ngIf="info.ggPage">
+        <th scope="row">Google Page</th>
+        <td><a [href]="info.ggPage">{{info.ggPage}}</a></td>
+      </tr>
+      <tr *ngIf="info.website">
+        <th scope="row">Website</th>
+        <td><a [href]="info.website">{{info.website}}</a></td>
+      </tr>
+      <tr *ngIf="info.hours">
+        <th scope="row">Hours</th>
+        <td>{{info.hours.open_now}} <a href="#">Daily open hours</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

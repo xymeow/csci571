@@ -1,0 +1,5 @@
+<div id="photos-div" (window:resize)="onResize(event)">
+  <div *ngFor="let photo of photos" class="photo-container">
+    <a [href]="photo.getUrl({'maxWidth': photo.width})" target="_blank"><img class="img-thumbnail" [src]="photo.getUrl({'maxWidth': 400})" alt=""></a>
+  </div>
+</div>

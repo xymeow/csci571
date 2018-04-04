@@ -1,0 +1,29 @@
+<p>
+  map-tab works! {{test}}
+</p>
+<div id="map-div">
+  <form id="get-direction" (ngSubmit)="onSubmit()" #getRoute="ngForm">
+    <div class="row">
+        <div class="form-group col-sm-3">
+            <label for="dir-start" class="form-label">From</label>
+            <input type="text" placeholder="Your location" class="form-control " id="dir-start" name="start" [(ngModel)]="startInput" #dirStart="ngModel"
+              appAutocomplete (setAddress)="getAddressOnChange($event, dirStart)" value="your location" required>
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="dir-end" class="form-label">To</label>
+            <input type="text" value="" disabled class="form-control " id="dir-end" name="end">
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="travel-mode">Travel Mode</label>
+            <select name="mode" id="travel-mode" class="custom-select " [(ngModel)]="modeChosen">
+              <option *ngFor="let mode of modes" [value]="mode.value">{{mode.text}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Get Directions</button>
+    </div>
+    
+  </form>
+  <button type="button" (click)="showPanorama()" class="btn btn-light">view</button>
+  <div id="map"></div>
+  <div id="route-panel"></div>
+</div>

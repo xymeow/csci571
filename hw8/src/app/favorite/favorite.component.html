@@ -1,9 +1,4 @@
-<div id="details-btn">
-  <button class="btn btn-outline-secondary" (click)="getDetails(1)">Details
-    <i class="fas fa-angle-right"></i>
-  </button>
-</div>
-<div id="results-div" *ngIf="showResult">
+<div id="favorite" *ngIf="showFavorite">
   <table class="table">
     <thead>
       <tr>
@@ -16,16 +11,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let rowdata of resultJson; index as i" [class.table-warning]="i == selectedRow">
-        <th scope="row">{{i+1}}</th>
+      <tr *ngFor="let favrow of favorites; index as i">
+        <th scope="row">
+          {{i+1}}
+        </th>
         <td>
-          <img src={{rowdata.icon}} alt="icon" class="category-icon">
+          <img src={{favrow.icon}} alt="icon" class="category-icon">
         </td>
-        <td>{{rowdata.name}}</td>
-        <td>{{rowdata.vicinity}}</td>
+        <td>{{favrow.name}}</td>
+        <td>{{favrow.vicinity}}</td>
         <td>
           <button type="button" class="btn btn-light">
-            <i class="fas fa-star"></i>
+            <i class="fas fa-trash-alt"></i>
           </button>
         </td>
         <td>
@@ -36,7 +33,7 @@
       </tr>
     </tbody>
   </table>
-  <div id="pagination" *ngIf="nextPage">
+  <div id="pagination-fav" *ngIf="nextPage">
     <button class="btn btn-outline-secondary" (click)="getNextPage()">Next</button>
   </div>
 </div>

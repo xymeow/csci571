@@ -1,6 +1,6 @@
 <div class="container" id="search-form-div">
-  <div class="card col-sm-10 offset-sm-1">
-    <div class="card-body">
+  <div class="jumbotron col-sm-10 offset-sm-1">
+    <div class="">
       <form (ngSubmit)="onSubmit()" #searchForm=ngForm>
         <div id="form-header">
           <p>Travel and Entertainment Search</p>
@@ -25,7 +25,8 @@
         <div class="form-group row">
           <label for="distance" class="col-sm-2 col-form-label">Distance (miles)</label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" name="distance" id="distance" placeholder="10" value="" [ngModel]="form.distance" #distance="ngModel">
+            <input class="form-control" type="text" name="distance" id="distance" placeholder="10" value="" [ngModel]="form.distance"
+              #distance="ngModel">
           </div>
         </div>
         <div class="row">
