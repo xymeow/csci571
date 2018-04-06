@@ -6,5 +6,5 @@ export class Info {
     ggPage: string;
     website: string;
     hours: any;
-    utcOffset: any;
+    utcOffset: number;
 }

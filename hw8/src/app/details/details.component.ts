@@ -1,9 +1,10 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, EventEmitter, Output } from "@angular/core";
 import { SearchService } from "../search.service";
 import { Info } from "./info-tab/info";
 import { DetailsService } from "../details.service";
 import { WindowRefService } from "../window-ref.service";
 import { Directions } from "./map-tab/direction";
+import { FavoriteService } from "../favorite.service";
 
 @Component({
   selector: "app-details",
@@ -18,6 +19,7 @@ export class DetailsComponent implements OnInit {
     { id: "reviews-tab", title: "Review" }
   ];
 
+  @Output() slide = new EventEmitter<string>();
   details: any;
 
   private activeId = "info-tab";
@@ -28,14 +30,40 @@ export class DetailsComponent implements OnInit {
   mapJson: Directions;
   photoJson: any;
   reviewJson: any;
+  isFavorited: boolean;
 
   setActive(id) {
     this.activeId = id;
   }
 
+  slideDetail() {
+    this.slide.emit("right");
+  }
+
+  setFavorite() {
+    console.log(this.isFavorited);
+    this.zone.run(() => {
+      if (this.isFavorited) {
+        this.fService.removeFavorite(this.details.place_id);
+        this.isFavorited = false;
+      } else {
+        this.fService.saveFavorite(
+          this.details.name,
+          this.details.vicinity,
+          this.details.place_id,
+          this.details.icon,
+          this.details.place_id
+        );
+        this.isFavorited = true;
+      }
+    })
+  }
+
   tweet() {
     let url = "https://twitter.com/intent/tweet?text=";
-    url += `Check out ${this.details.name} at ${this.details.formatted_address}. Website: ${this.details.website}`
+    url += `Check out ${this.details.name} at ${
+      this.details.formatted_address
+    }. Website: `;
     url += "&hashtags=TravelAndEntertainmentSearch";
     url += "&url=" + this.details.website;
     var newWin = this.nativeWindow.open(url, "tweet", "height=600, width=600");
@@ -73,8 +101,12 @@ export class DetailsComponent implements OnInit {
 
   setDirection(data) {
     let tmpJson = new Directions();
-    tmpJson.start = data.geo;
-    tmpJson.end = data.geometry.location;
+    let startJson = data.geo;
+    startJson["text"] = "";
+    tmpJson.start = startJson;
+    let endJson = data.geometry.location;
+    endJson["text"] = data.name + ", " + data.formatted_address;
+    tmpJson.end = endJson;
     this.mapJson = tmpJson;
     console.log(this.mapJson);
   }
@@ -89,6 +121,7 @@ export class DetailsComponent implements OnInit {
 
   constructor(
     private dService: DetailsService,
+    private fService: FavoriteService,
     private zone: NgZone,
     private winRef: WindowRefService
   ) {
@@ -101,6 +134,7 @@ export class DetailsComponent implements OnInit {
         this.setDirection(data);
         this.setPhotos(data);
         this.setReview(data);
+        this.isFavorited = this.fService.isFavorited([data["place_id"]])[0];
       });
     });
     this.nativeWindow = winRef.getNativeWindow();

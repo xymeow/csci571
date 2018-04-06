@@ -9,6 +9,7 @@ import { GeolocationService } from "./geolocation.service";
 import { CapToVarPipe } from "./cap-to-var.pipe";
 import { SearchService } from "./search.service";
 import { ResultTableComponent } from "./result-table/result-table.component";
+import { WebStorageModule } from "ngx-store";
 // import { AgmCoreModule } from '@agm/core';
 import { AutocompleteDirective } from "./autocomplete.directive";
 import { DetailsComponent } from "./details/details.component";
@@ -21,8 +22,13 @@ import { WindowRefService } from "./window-ref.service";
 import { LoaderComponent } from "./loader/loader.component";
 import { LoaderInterceptor } from "./loader/loader.interceptor";
 import { LoaderService } from "./loader/loader.service";
-import { ResultContainerComponent } from './result-container/result-container.component';
-import { FavoriteComponent } from './favorite/favorite.component';
+import { ResultContainerComponent } from "./result-container/result-container.component";
+import { FavoriteComponent } from "./favorite/favorite.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { StarComponent } from "./star/star.component";
+import { FavoriteService } from "./favorite.service";
+import { WhitespaceDirective } from './whitespace.directive';
+import { DateTimePipe } from './date-time.pipe';
 
 @NgModule({
   declarations: [
@@ -38,12 +44,17 @@ import { FavoriteComponent } from './favorite/favorite.component';
     ReviewsTabComponent,
     LoaderComponent,
     ResultContainerComponent,
-    FavoriteComponent
+    FavoriteComponent,
+    StarComponent,
+    WhitespaceDirective,
+    DateTimePipe
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    WebStorageModule,
     HttpClientModule
   ],
   entryComponents: [
@@ -58,6 +69,7 @@ import { FavoriteComponent } from './favorite/favorite.component';
     DetailsService,
     WindowRefService,
     LoaderService,
+    FavoriteService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,

@@ -1,10 +1,16 @@
-<div id="details-btn">
-  <button class="btn btn-outline-secondary" (click)="getDetails(1)">Details
+<div class="alert alert-danger" role="alert" *ngIf="error && showResult">
+  Failed to get search result.
+</div>
+<div class="details-btn" *ngIf="showResult && !error">
+  <button class="btn btn-outline-secondary" [disabled]="!selectedRow" (click)="getDetails(selectedRow)">Details
     <i class="fas fa-angle-right"></i>
   </button>
 </div>
-<div id="results-div" *ngIf="showResult">
-  <table class="table">
+<div id="results-div" *ngIf="showResult && !error" class="table-responsive">
+  <div class="alert alert-warning" role="alert" *ngIf="!resultJson">
+    No record.
+  </div>
+  <table class="table" *ngIf="resultJson">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -16,7 +22,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let rowdata of resultJson; index as i" [class.table-warning]="i == selectedRow">
+      <tr *ngFor="let rowdata of resultJson; index as i" [class.table-warning]="rowdata.place_id == selectedRow">
         <th scope="row">{{i+1}}</th>
         <td>
           <img src={{rowdata.icon}} alt="icon" class="category-icon">
@@ -24,19 +30,20 @@
         <td>{{rowdata.name}}</td>
         <td>{{rowdata.vicinity}}</td>
         <td>
-          <button type="button" class="btn btn-light">
+          <button type="button" class="btn btn-outline" (click)="setFavorite(i)" [class.favorited]="isFavorite[i]">
             <i class="fas fa-star"></i>
           </button>
         </td>
         <td>
-          <button type="button" class="btn btn-light" (click)="getDetails(i)">
+          <button type="button" class="btn btn-outline" (click)="getDetails(rowdata.place_id)">
             <i class="fas fa-angle-right"></i>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-  <div id="pagination" *ngIf="nextPage">
-    <button class="btn btn-outline-secondary" (click)="getNextPage()">Next</button>
-  </div>
+</div>
+<div class="pagination" >
+    <button class="btn btn-outline-secondary" (click)="getPrevPage()"  *ngIf="prevPage">Prev</button>
+  <button class="btn btn-outline-secondary" (click)="getNextPage()" *ngIf="nextPage">Next</button>
 </div>

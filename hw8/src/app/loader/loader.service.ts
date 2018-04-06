@@ -51,8 +51,8 @@ export class LoaderService implements OnDestroy {
     if (!this._pendingRequests) {
       this.set(100);
     }
-    setTimeout(() => this.set(0), 500);
     this.loaderSubject.next(<LoaderState>{ show: false });
+    setTimeout(() => this.set(0), 500);
     console.log("hide");
   }
 

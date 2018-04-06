@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SearchForm } from './search-form';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { SearchService } from '../search.service';
@@ -20,6 +20,10 @@ export class SearchFormComponent implements OnInit {
   constructor(
     private sService: SearchService
   ) { }
+
+  clear() {
+    this.sService.clear();
+  }
 
   getGeo() {
     this.sService.getGeolocation()

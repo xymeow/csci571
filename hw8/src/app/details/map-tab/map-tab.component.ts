@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { DetailsService } from "../../details.service";
 import { Directions } from "./direction";
+import { LoaderService } from "../../loader/loader.service";
 
 declare var google: any;
 
@@ -17,8 +18,9 @@ export class MapTabComponent implements OnChanges {
   private directionDisplay: any;
   private directionService: any;
   private modeChosen: string = "DRIVING";
-  private startInput: string;
+  private startInput: string = "Your location";
   private panorama: any;
+  private buttonImgUrl: string = "http://cs-server.usc.edu:45678/hw/hw8/images/Pegman.png";
   private modes = [
     { text: "Driving", value: "DRIVING" },
     { text: "Walking", value: "WALKING" },
@@ -26,12 +28,14 @@ export class MapTabComponent implements OnChanges {
     { text: "Transit", value: "TRANSIT" }
   ];
   private placeLatLng: any;
+  private geocoder = new google.maps.Geocoder();
 
   ngOnChanges() {
+    this.startInput = this.directions.start.text;
     this.setMap();
   }
 
-  constructor() {}
+  constructor(private loader: LoaderService) {}
 
   setMap() {
     let lat = this.directions.end.lat();
@@ -39,7 +43,8 @@ export class MapTabComponent implements OnChanges {
     this.placeLatLng = new google.maps.LatLng(lat, lng);
     var mapOpt = {
       zoom: 13,
-      center: this.placeLatLng
+      center: this.placeLatLng,
+      gestureHandling: 'cooperative'
     };
     this.map = new google.maps.Map(document.getElementById("map"), mapOpt);
     this.marker = new google.maps.Marker({
@@ -60,16 +65,16 @@ export class MapTabComponent implements OnChanges {
     let flag = this.panorama.getVisible();
     if (flag) {
       this.panorama.setVisible(false);
+      this.buttonImgUrl =
+        "http://cs-server.usc.edu:45678/hw/hw8/images/Pegman.png";
     } else {
       this.panorama.setVisible(true);
+      this.buttonImgUrl =
+        "http://cs-server.usc.edu:45678/hw/hw8/images/Map.png";
     }
   }
 
-  calcRoute(mode) {
-    let startLatLng = new google.maps.LatLng(
-      this.directions.start.lat,
-      this.directions.start.lng
-    );
+  calcRoute(mode, startLatLng) {
     var request = {
       origin: startLatLng,
       destination: this.placeLatLng,
@@ -83,10 +88,27 @@ export class MapTabComponent implements OnChanges {
         console.log(res);
       }
     });
+    this.loader.hide();
   }
 
   onSubmit() {
-    this.calcRoute(this.modeChosen);
+    this.loader.show();
+    let startLatLng = new google.maps.LatLng(
+      this.directions.start.lat,
+      this.directions.start.lng
+    );
+    if (this.startInput.toLowerCase() != "your location") {
+      this.geocoder.geocode({ address: this.startInput }, (results, status) => {
+        if (status == "OK") {
+          this.calcRoute(this.modeChosen, results[0].geometry.location);
+        } else {
+          alert("Unable to get start geocode!");
+        }
+      });
+    } 
+    else {
+      this.calcRoute(this.modeChosen, startLatLng);
+    }
   }
 
   ngOnInit() {}

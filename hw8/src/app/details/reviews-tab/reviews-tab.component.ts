@@ -1,17 +1,24 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { DetailsService } from "../../details.service";
+import { fadeInAnimation } from "../../fade-in.animation";
+import * as moment from "moment";
 
 @Component({
   selector: "app-reviews-tab",
   templateUrl: "./reviews-tab.component.html",
-  styleUrls: ["./reviews-tab.component.css"]
+  styleUrls: ["./reviews-tab.component.css"],
+  animations: [fadeInAnimation]
 })
-export class ReviewsTabComponent implements OnInit {
+export class ReviewsTabComponent implements OnChanges {
   @Input() ggReviews: any;
 
   yelpReviews: any;
   private reviewTypes = ["Google Reviews", "Yelp Reviews"];
   private selectedReviewType: number = 0;
+  private error = false;
+
+  private ggReviewOrderPointer = [0, 1, 2, 3, 4];
+  private yelpReviewOrderPointer = [0, 1, 2];
 
   private orderTypes = [
     "Default Order",
@@ -21,21 +28,108 @@ export class ReviewsTabComponent implements OnInit {
     "Least Recent"
   ];
 
+  setDefaultOrder() {
+    this.ggReviewOrderPointer.sort();
+    this.yelpReviewOrderPointer.sort();
+  }
+
+  mapOrder(pointers, review, key) {
+    pointers.sort((a, b) => {
+      if (review[a][key] > review[b][key]) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+  }
+
+  setHighestRating() {
+    this.mapOrder(this.ggReviewOrderPointer, this.ggReviews, "rating");
+    this.ggReviewOrderPointer.reverse();
+    if (this.yelpReviews) {
+      this.mapOrder(this.yelpReviewOrderPointer, this.yelpReviews, "rating");
+      this.yelpReviewOrderPointer.reverse();
+    }
+  }
+
+  setLowestRating() {
+    this.mapOrder(this.ggReviewOrderPointer, this.ggReviews, "rating");
+    if (this.yelpReviews) {
+      this.mapOrder(this.yelpReviewOrderPointer, this.yelpReviews, "rating");
+    }
+  }
+
+  setMostRecent() {
+    this.mapOrder(this.ggReviewOrderPointer, this.ggReviews, "time");
+    this.ggReviewOrderPointer.reverse();
+    if (this.yelpReviews) {
+      this.mapOrder(
+        this.yelpReviewOrderPointer,
+        this.yelpReviews,
+        "time_created"
+      );
+      this.yelpReviewOrderPointer.reverse();
+    }
+  }
+
+  setLeastRecent() {
+    this.mapOrder(this.ggReviewOrderPointer, this.ggReviews, "time");
+    if (this.yelpReviews) {
+      this.mapOrder(
+        this.yelpReviewOrderPointer,
+        this.yelpReviews,
+        "time_created"
+      );
+    }
+  }
+
+  ngOnChanges() {
+    console.log(this.ggReviews);
+    this.ggReviewOrderPointer = Array.from(Array(this.ggReviews.length).keys());
+  }
+
   private selectedOrderType: number = 0;
 
   setReviewType(type) {
     this.selectedReviewType = type;
-    if (!this.yelpReviews) {
+    this.error = false;
+    if (this.yelpReviews === undefined) {
       let response = this.dService.getYelpReviews();
       response.subscribe(data => {
         console.log(data);
         this.yelpReviews = data;
+        this.yelpReviewOrderPointer = Array.from(
+          Array(this.yelpReviews.length).keys()
+        );
+      }, err => {
+        this.error = true;
       });
     }
   }
 
   setOrderType(type) {
     this.selectedOrderType = type;
+    switch (type) {
+      case 0: {
+        this.setDefaultOrder();
+        return;
+      }
+      case 1: {
+        this.setHighestRating();
+        return;
+      }
+      case 2: {
+        this.setLowestRating();
+        return;
+      }
+      case 3: {
+        this.setMostRecent();
+        return;
+      }
+      case 4: {
+        this.setLeastRecent();
+      }
+    }
   }
 
   constructor(private dService: DetailsService) {}
