@@ -46,7 +46,7 @@ export class DetailsService {
     return this.http.get("/api/yelp_review", { params: httpParams });
   }
 
-  getDetails(place_id, geo = { }) {
+  getDetails(place_id, start = "",geo = { }) {
     let req = {
       placeId: place_id
     };
@@ -54,14 +54,16 @@ export class DetailsService {
     this.ggService.getDetails(req, (place, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         this.loader.hide();
-        this.setDetails(place, name, geo);
+        this.setDetails(place, start, geo);
       }
     });
   }
 
-  setDetails(data, name, geo) {
+  setDetails(data, start, geo) {
     let tmpJson = data;
     tmpJson["geo"] = geo;
+    // console.log(geo);
+    tmpJson['startLocation'] = start;
     this._details.next(tmpJson);
     this.detailJson = tmpJson;
     // this._slide.next('left');

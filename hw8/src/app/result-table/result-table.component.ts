@@ -24,15 +24,15 @@ export class ResultTableComponent implements OnInit {
 
   showResult = false;
   resultJson = null;
-  nextPage:any;
+  nextPage: any;
   prevPage: any = false;
   curPage = 1;
   service: any;
-  @Input('place')
-  selectedRow :any;
+  @Input("place") selectedRow: any;
   geoJson: any;
   isFavorite: any;
   error: boolean = false;
+  startLocation = "";
 
   constructor(
     private sService: SearchService,
@@ -41,57 +41,74 @@ export class ResultTableComponent implements OnInit {
   ) {
     this.sService.resultJson.subscribe(data => {
       console.log(data);
-      if (data===null) {
+      if (data === null) {
         this.error = true;
         this.showResult = true;
+      } else if (data === undefined) {
       }
-      else if(data === undefined){
-      } 
-      else {
+      else if (data["status"] == 'ZERO_RESULTS') {
+        this.resultJson = null;
+        this.showResult = true;
+      }
+      else if(data == 'clear') {
+        this.resultJson = null;
+        this.showResult = true;
+        this.selectedRow = null;
+      }
+       else {
         this.resultJson = data["results"];
         this.checkFavorite();
         // console.log(this.isFavorite);
         this.nextPage = data["next_page_token"];
         this.geoJson = data["geoJson"];
+        this.startLocation = data["startLocation"];
+        // console.log(this.geoJson)
         this.error = false;
         this.showResult = true;
+        
       }
-      
+      if (this.curPage == 1) {
+        this.prevPage = false;
+      } else {
+        this.prevPage = true;
+      }
     });
     this.fService.isStorageChange.subscribe(data => {
+      console.log(data);
       this.checkFavorite();
-    })
+    });
   }
 
   getNextPage() {
+    this.curPage++;
+    this.resultJson = 'loading';
     this.sService.getNextPage(this.nextPage);
-    this.curPage ++;
-    this.prevPage = true;
+    
+    // this.prevPage = true;
     console.log("next");
   }
 
   getPrevPage() {
+    this.curPage--;
     this.sService.getPrevPage();
-    this.curPage --;
-    if(this.curPage==1){
-      this.prevPage = false;
-    }
+    
   }
 
   highlightRow(placeId) {
     this.selectedRow = placeId;
   }
 
-  slideLeft() {
-    this.slide.emit({ slide: "left",  place: this.selectedRow })
+  showDetails() {
+    this.slide.emit({ slide: "left", place: this.selectedRow });
   }
 
   getDetails(placeId) {
     // this.sService.getDetails(index);
     // let placeId = this.resultJson[index]["place_id"];
-    this.dService.getDetails(placeId, this.geoJson);
+
     // this.dService.getDetails("ChIJV2O_5jTGwoARk4eD0_v-Xm8", this.geoJson);
     this.highlightRow(placeId);
+    this.dService.getDetails(placeId, this.startLocation, this.geoJson);
     this.slide.emit({ slide: "left", place: placeId });
     console.log("details");
   }
@@ -113,11 +130,14 @@ export class ResultTableComponent implements OnInit {
   }
 
   checkFavorite() {
-    let place_id_arr = this.resultJson.map(data => data.place_id);
-    this.isFavorite = this.fService.isFavorited(place_id_arr);
+    if (this.resultJson) {
+      let place_id_arr = this.resultJson.map(data => data.place_id);
+      this.isFavorite = this.fService.isFavorited(place_id_arr);
+    }
   }
 
   ngOnInit() {
     this.sService.loadSearchResult();
+    this.curPage = 1;
   }
 }

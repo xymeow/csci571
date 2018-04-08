@@ -6,7 +6,7 @@
     </div>
   </div>
   <app-loader></app-loader>
-  <div id="slide-container" [@slideAnimation]="active" class="container">
+  <div id="slide-container" [@slideAnimation]="active" class="container" *ngIf="!clear">
     <div class="slide-div" [class.hide]="active == 'right'">
       <div>
         <app-details (slide)="slideRight($event)"></app-details>

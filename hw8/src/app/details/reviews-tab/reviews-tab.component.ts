@@ -13,14 +13,14 @@ export class ReviewsTabComponent implements OnChanges {
   @Input() ggReviews: any;
 
   yelpReviews: any;
-  private reviewTypes = ["Google Reviews", "Yelp Reviews"];
-  private selectedReviewType: number = 0;
-  private error = false;
+  reviewTypes = ["Google Reviews", "Yelp Reviews"];
+  selectedReviewType: number = 0;
+  error = false;
 
-  private ggReviewOrderPointer = [0, 1, 2, 3, 4];
-  private yelpReviewOrderPointer = [0, 1, 2];
+  ggReviewOrderPointer = [0, 1, 2, 3, 4];
+  yelpReviewOrderPointer = [0, 1, 2];
 
-  private orderTypes = [
+  orderTypes = [
     "Default Order",
     "Highest Rating",
     "Lowest Rating",
@@ -88,22 +88,26 @@ export class ReviewsTabComponent implements OnChanges {
     this.ggReviewOrderPointer = Array.from(Array(this.ggReviews.length).keys());
   }
 
-  private selectedOrderType: number = 0;
+  selectedOrderType: number = 0;
 
   setReviewType(type) {
     this.selectedReviewType = type;
     this.error = false;
     if (this.yelpReviews === undefined) {
       let response = this.dService.getYelpReviews();
-      response.subscribe(data => {
-        console.log(data);
-        this.yelpReviews = data;
-        this.yelpReviewOrderPointer = Array.from(
-          Array(this.yelpReviews.length).keys()
-        );
-      }, err => {
-        this.error = true;
-      });
+      response.subscribe(
+        data => {
+          console.log(data);
+          this.yelpReviews = data;
+          this.yelpReviewOrderPointer = Array.from(
+            Array(this.yelpReviews.length).keys()
+          );
+          this.setOrderType(this.selectedOrderType);
+        },
+        err => {
+          this.error = true;
+        }
+      );
     }
   }
 

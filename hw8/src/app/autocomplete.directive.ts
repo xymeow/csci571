@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Output, NgZone } from '@angular/core';
 import {NgModel} from '@angular/forms';
 
 declare var google:any;
@@ -14,19 +14,25 @@ export class AutocompleteDirective {
   autocomplete: any;
   private _el: HTMLElement;
 
-  constructor(el: ElementRef, private model: NgModel) { 
+  constructor(el: ElementRef, private model: NgModel, private zone: NgZone) { 
     this._el = el.nativeElement;
     this.modelValue = this.model;
     var input = this._el;
 
-    this.autocomplete = new google.maps.places.Autocomplete(input, {});
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      // 'inputString': 'Your location'
+    });
     google.maps.event.addListener(this.autocomplete, 'place_changed', () => {
       var place = this.autocomplete.getPlace();
+      console.log(this.autocomplete);
+      console.log(place);
       this.invokeEvent(place);
     })
   }
 
   invokeEvent(place: Object) {
-    this.setAddress.emit(place);
+    this.zone.run(() => {
+      this.setAddress.emit(place);
+    })
   }
 }

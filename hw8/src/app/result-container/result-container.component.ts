@@ -35,14 +35,20 @@ import { DetailsService } from "../details.service";
 export class ResultContainerComponent implements OnInit {
 
   active:any;
+  clear = false;
   constructor(private sService: SearchService, private dService: DetailsService) {
     this.sService.isClear.subscribe(data => {
       this.showResult();
       this.isShowResult = false;
+      this.clear = true;
+      this.place = null;
+      console.log('clear view')
     });
     this.sService.isDataget.subscribe(data => {
       this.showResult();
       this.isShowResult = true;
+      this.clear = false;
+      console.log('show result')
     })
     // this.dService.slide.subscribe(data => {
     //   this.active = data;
@@ -60,16 +66,19 @@ export class ResultContainerComponent implements OnInit {
 
   slideRight(panel) {
     // console.log(panel);
+    this.clear = false;
     this.active = panel;
   }
 
   slideLeft(event) {
+    this.clear = false;
     this.active = event.slide;
     // this.btn = event.btn;
     this.place = event.place;
   }
 
   showResult() {
+    this.clear = false;
     this.isShowFavorite = false;
     this.isShowResult = true;
     this.active = 'right';
@@ -78,6 +87,7 @@ export class ResultContainerComponent implements OnInit {
   }
 
   showFavorite() {
+    this.clear = false;
     this.isShowResult = false;
     this.isShowFavorite = true;
     this.active = 'right';

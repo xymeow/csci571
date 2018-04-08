@@ -21,6 +21,9 @@ export class PhotosTabComponent implements OnChanges {
 
   ngOnChanges() {
     // this.resizeAllGridItems();
+    if(!this.photos) {
+      return;
+    }
     
     this.displayWidth = window.screen.width;
     if(this.displayWidth > 600) {

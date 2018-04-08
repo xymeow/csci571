@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, OnChanges } from "@angular/core";
+import { Component, OnInit, Input, OnChanges, OnDestroy } from "@angular/core";
 import { DetailsService } from "../../details.service";
 import { Directions } from "./direction";
 import { LoaderService } from "../../loader/loader.service";
+import { SearchService } from "../../search.service";
 
 declare var google: any;
 
@@ -10,18 +11,20 @@ declare var google: any;
   templateUrl: "./map-tab.component.html",
   styleUrls: ["./map-tab.component.css"]
 })
-export class MapTabComponent implements OnChanges {
+export class MapTabComponent implements OnChanges, OnDestroy {
   @Input() directions: Directions;
 
   private marker: any;
   private map: any;
   private directionDisplay: any;
   private directionService: any;
-  private modeChosen: string = "DRIVING";
-  private startInput: string = "Your location";
+  private geoAutocomplete: any;
+  modeChosen: string = "DRIVING";
+  startInput: string = "Your location";
+  private myLocation: any;
   private panorama: any;
-  private buttonImgUrl: string = "http://cs-server.usc.edu:45678/hw/hw8/images/Pegman.png";
-  private modes = [
+  buttonImgUrl: string = "http://cs-server.usc.edu:45678/hw/hw8/images/Pegman.png";
+  modes = [
     { text: "Driving", value: "DRIVING" },
     { text: "Walking", value: "WALKING" },
     { text: "Bicycling", value: "BICYCLING" },
@@ -30,12 +33,17 @@ export class MapTabComponent implements OnChanges {
   private placeLatLng: any;
   private geocoder = new google.maps.Geocoder();
 
+  ngOnDestroy() {
+    this.myLocation = null;
+  }
+
   ngOnChanges() {
-    this.startInput = this.directions.start.text;
+    this.startInput = this.directions.start.text || "Your location";
+    document.getElementById("route-panel").innerHTML = "";
     this.setMap();
   }
 
-  constructor(private loader: LoaderService) {}
+  constructor(private loader: LoaderService, private sService: SearchService) {}
 
   setMap() {
     let lat = this.directions.end.lat();
@@ -44,7 +52,7 @@ export class MapTabComponent implements OnChanges {
     var mapOpt = {
       zoom: 13,
       center: this.placeLatLng,
-      gestureHandling: 'cooperative'
+      gestureHandling: "cooperative"
     };
     this.map = new google.maps.Map(document.getElementById("map"), mapOpt);
     this.marker = new google.maps.Marker({
@@ -59,6 +67,13 @@ export class MapTabComponent implements OnChanges {
     this.panorama = this.map.getStreetView();
     this.panorama.setPosition(this.placeLatLng);
     this.panorama.setVisible(false);
+  }
+
+  getAddressOnChange(event) {
+    this.startInput = (<HTMLInputElement>document.getElementById(
+      "dir-start"
+    )).value;
+    // this.startInput = event.name;
   }
 
   showPanorama() {
@@ -93,11 +108,12 @@ export class MapTabComponent implements OnChanges {
 
   onSubmit() {
     this.loader.show();
-    let startLatLng = new google.maps.LatLng(
-      this.directions.start.lat,
-      this.directions.start.lng
-    );
-    if (this.startInput.toLowerCase() != "your location") {
+
+    console.log(this.startInput);
+    if (
+      this.startInput.toLowerCase() != "my location" &&
+      this.startInput.toLowerCase() != "your location"
+    ) {
       this.geocoder.geocode({ address: this.startInput }, (results, status) => {
         if (status == "OK") {
           this.calcRoute(this.modeChosen, results[0].geometry.location);
@@ -105,9 +121,26 @@ export class MapTabComponent implements OnChanges {
           alert("Unable to get start geocode!");
         }
       });
-    } 
-    else {
-      this.calcRoute(this.modeChosen, startLatLng);
+    } else {
+      if (!this.myLocation) {
+        this.sService.getGeolocation().subscribe(data => {
+          this.myLocation = {
+            lat: data["lat"],
+            lng: data["lon"]
+          };
+          let startLatLng = new google.maps.LatLng(
+            this.myLocation.lat,
+            this.myLocation.lng
+          );
+          this.calcRoute(this.modeChosen, startLatLng);
+        });
+      } else {
+        let startLatLng = new google.maps.LatLng(
+          this.myLocation.lat,
+          this.myLocation.lng
+        );
+        this.calcRoute(this.modeChosen, startLatLng);
+      }
     }
   }
 

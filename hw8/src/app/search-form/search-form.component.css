@@ -11,3 +11,7 @@
 #search-btn-group {
     padding: 10px;
 }
+
+.required {
+    color: red;
+}

@@ -2,15 +2,16 @@
   Failed to get search result.
 </div>
 <div class="details-btn" *ngIf="showResult && !error">
-  <button class="btn btn-outline-secondary" [disabled]="!selectedRow" (click)="getDetails(selectedRow)">Details
+  <button class="btn btn-outline-secondary" [disabled]="!selectedRow" (click)="showDetails()">Details
     <i class="fas fa-angle-right"></i>
   </button>
 </div>
+
 <div id="results-div" *ngIf="showResult && !error" class="table-responsive">
   <div class="alert alert-warning" role="alert" *ngIf="!resultJson">
     No record.
   </div>
-  <table class="table" *ngIf="resultJson">
+  <table class="table" *ngIf="resultJson && resultJson != 'loading'">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -43,7 +44,7 @@
     </tbody>
   </table>
 </div>
-<div class="pagination" >
+<div class="pagination" *ngIf="resultJson">
     <button class="btn btn-outline-secondary" (click)="getPrevPage()"  *ngIf="prevPage">Prev</button>
   <button class="btn btn-outline-secondary" (click)="getNextPage()" *ngIf="nextPage">Next</button>
 </div>

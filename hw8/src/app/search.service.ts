@@ -26,6 +26,9 @@ export class SearchService {
   private _isDataGet = new Subject();
   isDataget = this._isDataGet.asObservable();
 
+  private _locationInput = new Subject();
+  locationInput = this._isDataGet.asObservable();
+
   constructor(private http: HttpClient) {}
 
   private searchResults: any;
@@ -34,9 +37,6 @@ export class SearchService {
   curPage = 1;
 
   search(form) {
-    if (!form.distance) {
-      form.distance = "10";
-    }
     // let body = JSON.stringify(form);
     // console.log(body);
     this.showResult = true;
@@ -45,11 +45,12 @@ export class SearchService {
     if (!location) {
       location = "Your location";
     }
+    // geo.text = location;
     let params = new HttpParams()
       .set("keyword", form.keyword)
-      .set("category", form.category)
-      .set("distance", form.distance)
-      .set("isUserInput", form.isUserInput)
+      .set("category", form.category || 'default')
+      .set("distance", form.distance || '10')
+      .set("isUserInput", form.isUserInput || false)
       .set("location", location)
       .set("geoJson", JSON.stringify(form.geoJson));
     // console.log(geo);
@@ -58,7 +59,7 @@ export class SearchService {
     response.subscribe(
       data => {
         this.jsonData = data;
-        this.jsonData.geoJson = geo;
+        this.jsonData.geoJson = geo
         this.jsonData.startLocation = location;
         this._resultJson.next(this.jsonData);
         this._isDataGet.next(true);
@@ -121,6 +122,8 @@ export class SearchService {
   }
 
   clear() {
+    this._resultJson.next('clear');
+    this.jsonData = undefined;
     this._isClear.next(true);
   }
 }

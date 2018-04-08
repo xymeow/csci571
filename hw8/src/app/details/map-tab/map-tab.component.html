@@ -4,7 +4,7 @@
       <div class="form-group col-sm-3">
         <label for="dir-start" class="form-label">From</label>
         <input type="text" placeholder="Your location" class="form-control " id="dir-start" name="start" [(ngModel)]="startInput"
-          #dirStart="ngModel" appAutocomplete (setAddress)="getAddressOnChange($event, dirStart)" value={{directions.start.text}} required noWhitespace>
+          #dirStart="ngModel" appAutocomplete (setAddress)="getAddressOnChange($event)" value={{directions.start.text}} required noWhitespace>
       </div>
       <div class="form-group col-sm-3">
         <label for="dir-end" class="form-label">To</label>

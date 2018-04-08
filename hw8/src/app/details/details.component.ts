@@ -101,9 +101,8 @@ export class DetailsComponent implements OnInit {
 
   setDirection(data) {
     let tmpJson = new Directions();
-    let startJson = data.geo;
-    startJson["text"] = "";
-    tmpJson.start = startJson;
+    data.geo.text = data.startLocation;
+    tmpJson.start = data.geo;
     let endJson = data.geometry.location;
     endJson["text"] = data.name + ", " + data.formatted_address;
     tmpJson.end = endJson;

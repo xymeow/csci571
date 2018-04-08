@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { LocalStorageService } from "ngx-store";
 import { Subject } from "rxjs/Subject";
 
 @Injectable()
@@ -13,12 +12,6 @@ export class FavoriteService {
   page = 1;
 
   constructor() {
-    window.addEventListener("storage", event => {
-      if (event.storageArea == localStorage) {
-        // this._favorite.next(this.getAllFavorite());
-        this.getAllFavorite(this.page);
-      }
-    });
   }
 
   saveFavorite(
@@ -35,6 +28,7 @@ export class FavoriteService {
       icon: icon_url
     };
     localStorage.setItem(key, JSON.stringify(favJson));
+    this.getAllFavorite(this.page);
   }
 
   getFavorite(key: string) {
@@ -47,16 +41,26 @@ export class FavoriteService {
     let favPerPage = 20;
     let allFavorite = [];
     let flag = favPerPage;
+    if ((page - 1) * favPerPage == localStorage.length) {
+      // last item
+      this.page--;
+      page--;
+      if (this.page == 0) {
+        this.page = 1;
+        this._favorite.next({allFav: null, flag: null});
+        this._isStorageChange.next(true);
+        return;
+      }
+    }
+
     for (
       let i = (page - 1) * favPerPage;
       i < localStorage.length && i < page * favPerPage;
       i++, flag--
     ) {
       let key = localStorage.key(i);
-      if (key != "NGX-STORE_prefix") {
-        let value = JSON.parse(localStorage.getItem(key));
-        allFavorite.push(value);
-      }
+      let value = this.getFavorite(key);
+      allFavorite.push(value);
     }
 
     // return allFavorite;
@@ -71,7 +75,6 @@ export class FavoriteService {
 
   removeFavorite(key: string) {
     localStorage.removeItem(key);
-    // this._favorite.next(this.getAllFavorite());
     this.getAllFavorite(this.page);
   }
 

@@ -9,7 +9,6 @@ import { GeolocationService } from "./geolocation.service";
 import { CapToVarPipe } from "./cap-to-var.pipe";
 import { SearchService } from "./search.service";
 import { ResultTableComponent } from "./result-table/result-table.component";
-import { WebStorageModule } from "ngx-store";
 // import { AgmCoreModule } from '@agm/core';
 import { AutocompleteDirective } from "./autocomplete.directive";
 import { DetailsComponent } from "./details/details.component";
@@ -54,7 +53,6 @@ import { DateTimePipe } from './date-time.pipe';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    WebStorageModule,
     HttpClientModule
   ],
   entryComponents: [

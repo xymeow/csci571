@@ -34,11 +34,17 @@ async function searchHandler(req, res) {
       response = await axios.get(url);
     } catch (err) {
       console.log(err);
+      res.status(500).send('faild to get geocode');
     }
-    console.log(response);
-    let geoJson = response.data.results[0].geometry.location;
-    console.log(geoJson);
-    form.geoJson = geoJson;
+    try {
+      console.log(response);
+      let geoJson = response.data.results[0].geometry.location;
+      console.log(geoJson);
+      form.geoJson = geoJson;
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('no geometry');
+    }
   } else {
     form.geoJson = JSON.parse(form.geoJson);
   }
@@ -62,6 +68,7 @@ async function searchHandler(req, res) {
     response = await axios.get(url);
   } catch (err) {
     console.log(err);
+    res.status(500).send('nearby search failed.')
   }
   let result = response.data;
   // console.log(result);
