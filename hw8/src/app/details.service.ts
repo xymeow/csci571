@@ -62,11 +62,8 @@ export class DetailsService {
   setDetails(data, start, geo) {
     let tmpJson = data;
     tmpJson["geo"] = geo;
-    // console.log(geo);
     tmpJson['startLocation'] = start;
     this._details.next(tmpJson);
     this.detailJson = tmpJson;
-    // this._slide.next('left');
-    // console.log(data);
   }
 }

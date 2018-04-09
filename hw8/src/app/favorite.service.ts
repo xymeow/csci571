@@ -11,8 +11,7 @@ export class FavoriteService {
 
   page = 1;
 
-  constructor() {
-  }
+  constructor() {}
 
   saveFavorite(
     name: string,
@@ -21,19 +20,16 @@ export class FavoriteService {
     icon_url: string,
     key: string
   ) {
+    let timestamp = new Date();
     let favJson = {
       name: name,
       address: vicinity,
       placeId: place_id,
-      icon: icon_url
+      icon: icon_url,
+      timestamp: timestamp.getTime()
     };
     localStorage.setItem(key, JSON.stringify(favJson));
     this.getAllFavorite(this.page);
-  }
-
-  getFavorite(key: string) {
-    // return this.resourse.setPath(key).value;
-    return JSON.parse(localStorage.getItem(key));
   }
 
   getAllFavorite(page) {
@@ -41,13 +37,27 @@ export class FavoriteService {
     let favPerPage = 20;
     let allFavorite = [];
     let flag = favPerPage;
+    let localStorageArray = new Array(localStorage.length);
+    for (let i = 0; i < localStorage.length; i++) {
+      localStorageArray[i] = JSON.parse(
+        localStorage.getItem(localStorage.key(i))
+      );
+    }
+
+    localStorageArray.sort((a, b) => {
+      if (a.timestamp > b.timestamp) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
     if ((page - 1) * favPerPage == localStorage.length) {
       // last item
       this.page--;
       page--;
       if (this.page == 0) {
         this.page = 1;
-        this._favorite.next({allFav: null, flag: null});
+        this._favorite.next({ allFav: null, flag: null });
         this._isStorageChange.next(true);
         return;
       }
@@ -58,13 +68,12 @@ export class FavoriteService {
       i < localStorage.length && i < page * favPerPage;
       i++, flag--
     ) {
-      let key = localStorage.key(i);
-      let value = this.getFavorite(key);
+      // let key = localStorage.key(i);
+      let value = localStorageArray[i];
       allFavorite.push(value);
     }
 
     // return allFavorite;
-    console.log(allFavorite);
     let returnJson = {
       allFav: allFavorite,
       flag: flag
@@ -87,7 +96,6 @@ export class FavoriteService {
         result.push(true);
       }
     }
-    console.log(result);
     return result;
   }
 }

@@ -22,28 +22,24 @@ async function searchHandler(req, res) {
   let response;
   let form = req.query;
   let location = form.location;
-  console.log(form);
   if (form.isUserInput == "true") {
     let url =
       "https://maps.googleapis.com/maps/api/geocode/json?key=" +
       encodeURIComponent(key) +
       "&address=" +
       encodeURIComponent(location);
-    console.log(url);
     try {
       response = await axios.get(url);
     } catch (err) {
       console.log(err);
-      res.status(500).send('faild to get geocode');
+      res.status(500).send("faild to get geocode");
     }
     try {
-      console.log(response);
       let geoJson = response.data.results[0].geometry.location;
-      console.log(geoJson);
       form.geoJson = geoJson;
     } catch (error) {
       console.log(error);
-      res.status(500).send('no geometry');
+      res.status(500).send("no geometry");
     }
   } else {
     form.geoJson = JSON.parse(form.geoJson);
@@ -63,15 +59,13 @@ async function searchHandler(req, res) {
     encodeURIComponent(form.keyword) +
     "&key=" +
     key;
-  console.log(url);
   try {
     response = await axios.get(url);
   } catch (err) {
     console.log(err);
-    res.status(500).send('nearby search failed.')
+    res.status(500).send("nearby search failed.");
   }
   let result = response.data;
-  // console.log(result);
   res.send(result);
 }
 
@@ -100,7 +94,6 @@ async function yelpHandler(req, res) {
     state: query.state,
     country: query.country
   };
-  console.log(query);
   let response;
   try {
     response = await yelp_client.businessMatch("best", request);
@@ -109,12 +102,10 @@ async function yelpHandler(req, res) {
     console.log(err);
   }
   let jsonBody = response.jsonBody;
-  console.log(jsonBody);
   try {
     let yelpId;
     if (jsonBody.businesses[0]) {
       yelpId = jsonBody.businesses[0].id;
-      console.log(yelpId);
     } else {
       res.send(null);
       return;
@@ -125,7 +116,6 @@ async function yelpHandler(req, res) {
       res.status(500).send("review error");
       console.log(err);
     }
-    console.log(response);
     res.send(response.jsonBody.reviews);
   } catch (error) {
     res.status(500).send("something goes wrong");

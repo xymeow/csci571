@@ -100,7 +100,6 @@ export class MapTabComponent implements OnChanges, OnDestroy {
       if (status == "OK") {
         this.marker.setMap(null);
         this.directionDisplay.setDirections(res);
-        console.log(res);
       }
     });
     this.loader.hide();
@@ -109,7 +108,6 @@ export class MapTabComponent implements OnChanges, OnDestroy {
   onSubmit() {
     this.loader.show();
 
-    console.log(this.startInput);
     if (
       this.startInput.toLowerCase() != "my location" &&
       this.startInput.toLowerCase() != "your location"

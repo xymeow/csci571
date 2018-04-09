@@ -1,31 +1,37 @@
 #place-name {
-    text-align: center;
-    margin: 10px;
+  text-align: center;
+  margin: 10px;
 }
 
 #tweet {
-    width: 38px;
-    height: 38px;
+  width: 38px;
+  height: 38px;
 }
 
 #details-button {
-    position: relative;
-    margin-bottom: 70px;
+  position: relative;
+  margin-bottom: 70px;
 }
 
 .left {
-    float: left;
+  float: left;
 }
 
 .right {
-    float: right;
+  float: right;
 }
 
 .favorited {
-    color: orange;
+  color: orange;
 }
 
 .btn-outline {
-    border: 1px solid;
-    border-color: darkgray
+  border: 1px solid;
+  border-color: darkgray;
+}
+
+@media (max-width: 600px) {
+  .nav-tabs {
+    display: -webkit-inline-box;
+  }
 }

@@ -41,7 +41,6 @@ export class DetailsComponent implements OnInit {
   }
 
   setFavorite() {
-    console.log(this.isFavorited);
     this.zone.run(() => {
       if (this.isFavorited) {
         this.fService.removeFavorite(this.details.place_id);
@@ -96,7 +95,6 @@ export class DetailsComponent implements OnInit {
       tmpJson.utcOffset = data["utc_offset"];
     }
     this.infoJson = tmpJson;
-    console.log(this.infoJson);
   }
 
   setDirection(data) {
@@ -107,7 +105,6 @@ export class DetailsComponent implements OnInit {
     endJson["text"] = data.name + ", " + data.formatted_address;
     tmpJson.end = endJson;
     this.mapJson = tmpJson;
-    console.log(this.mapJson);
   }
 
   setPhotos(data) {
@@ -126,9 +123,7 @@ export class DetailsComponent implements OnInit {
   ) {
     this.dService.details.subscribe(data => {
       this.zone.run(() => {
-        console.log(data);
         this.details = data;
-        console.log(this.details);
         this.setInfo(data);
         this.setDirection(data);
         this.setPhotos(data);

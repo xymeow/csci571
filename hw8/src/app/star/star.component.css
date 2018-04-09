@@ -1,21 +1,22 @@
 #star-rating {
-    color: #e7711b;
-    display: inline-block;
+  color: #e7711b;
+  display: inline-block;
 }
 .star-ratings-css {
-    unicode-bidi: bidi-override;
-    position: absolute;
-    padding: 0;
-    width: 71px;
-    display: inline-block;
-    font-size: 16px;
-  }
+  unicode-bidi: bidi-override;
+  position: relative;
+  padding: 0;
+  width: 71px;
+  display: inline-block;
+  font-size: 16px;
+  padding-bottom: 1.1rem;
+}
 
-  .star-ratings-css-top {
-    color: #e7711b;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-  }
+.star-ratings-css-top {
+  color: #e7711b;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
