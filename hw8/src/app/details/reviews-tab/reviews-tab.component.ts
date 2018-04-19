@@ -84,7 +84,6 @@ export class ReviewsTabComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.ggReviews);
     this.ggReviewOrderPointer = Array.from(Array(this.ggReviews.length).keys());
   }
 
@@ -97,7 +96,6 @@ export class ReviewsTabComponent implements OnChanges {
       let response = this.dService.getYelpReviews();
       response.subscribe(
         data => {
-          console.log(data);
           this.yelpReviews = data;
           this.yelpReviewOrderPointer = Array.from(
             Array(this.yelpReviews.length).keys()

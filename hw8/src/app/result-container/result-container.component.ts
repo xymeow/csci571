@@ -23,7 +23,7 @@ import { DetailsService } from "../details.service";
     trigger("slideAnimation", [
       transition("* => right", [
         style({right: '-100%'}),
-        animate('1s ease-in', style({right:0}))
+        animate('.5s ease-in', style({right:0}))
       ]),
       transition("* => left", [
         style({left: '-100%'}),
@@ -42,30 +42,21 @@ export class ResultContainerComponent implements OnInit {
       this.isShowResult = false;
       this.clear = true;
       this.place = null;
-      console.log('clear view')
     });
     this.sService.isDataget.subscribe(data => {
       this.showResult();
       this.isShowResult = true;
       this.clear = false;
-      console.log('show result')
     })
-    // this.dService.slide.subscribe(data => {
-    //   this.active = data;
-    //   console.log(this.active);
-    // })
   }
   isShowResult = true;
   isShowFavorite = false;
 
   resultShowClass = "btn btn-primary";
   favoriteShowClass = "btn btn-outline-primary";
-
-  // btn = true;
   place = "";
 
   slideRight(panel) {
-    // console.log(panel);
     this.clear = false;
     this.active = panel;
   }
@@ -73,7 +64,6 @@ export class ResultContainerComponent implements OnInit {
   slideLeft(event) {
     this.clear = false;
     this.active = event.slide;
-    // this.btn = event.btn;
     this.place = event.place;
   }
 
@@ -96,6 +86,5 @@ export class ResultContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.active = "right";
   }
 }

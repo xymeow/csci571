@@ -24,12 +24,7 @@ export class SearchFormComponent implements OnInit {
   }
 
   getAddressOnChange(event, location) {
-    console.log(event);
-    console.log(location);
-    // this.form.location = event.name;
     this.form.location = (<HTMLInputElement>document.getElementById('loc-input')).value;
-    // this.cdRef.detectChanges();
-    // this.form.location = event[""]
   }
 
   getGeo() {
@@ -44,11 +39,7 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form);
     this.sService.search(this.form);
-    console.log("submit");
-    console.log(this.form);
-    // console.log()
   }
 
   searchTypes = [

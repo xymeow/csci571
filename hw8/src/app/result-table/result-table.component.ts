@@ -58,11 +58,9 @@ export class ResultTableComponent implements OnInit {
        else {
         this.resultJson = data["results"];
         this.checkFavorite();
-        // console.log(this.isFavorite);
         this.nextPage = data["next_page_token"];
         this.geoJson = data["geoJson"];
         this.startLocation = data["startLocation"];
-        // console.log(this.geoJson)
         this.error = false;
         this.showResult = true;
         
@@ -74,7 +72,6 @@ export class ResultTableComponent implements OnInit {
       }
     });
     this.fService.isStorageChange.subscribe(data => {
-      console.log(data);
       this.checkFavorite();
     });
   }
@@ -83,9 +80,6 @@ export class ResultTableComponent implements OnInit {
     this.curPage++;
     this.resultJson = 'loading';
     this.sService.getNextPage(this.nextPage);
-    
-    // this.prevPage = true;
-    console.log("next");
   }
 
   getPrevPage() {
@@ -103,14 +97,9 @@ export class ResultTableComponent implements OnInit {
   }
 
   getDetails(placeId) {
-    // this.sService.getDetails(index);
-    // let placeId = this.resultJson[index]["place_id"];
-
-    // this.dService.getDetails("ChIJV2O_5jTGwoARk4eD0_v-Xm8", this.geoJson);
     this.highlightRow(placeId);
     this.dService.getDetails(placeId, this.startLocation, this.geoJson);
     this.slide.emit({ slide: "left", place: placeId });
-    console.log("details");
   }
 
   setFavorite(index) {

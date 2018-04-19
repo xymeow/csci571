@@ -25,8 +25,6 @@ export class LoaderService implements OnDestroy {
         this._pendingRequests === 1 && this._value > 0 ? this._value : 0
       );
     }
-
-    console.log("show");
   }
 
   set(value) {
@@ -53,7 +51,6 @@ export class LoaderService implements OnDestroy {
     }
     this.loaderSubject.next(<LoaderState>{ show: false });
     setTimeout(() => this.set(0), 500);
-    console.log("hide");
   }
 
   ngOnDestroy() {

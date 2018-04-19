@@ -35,7 +35,6 @@ export class FavoriteComponent implements OnInit {
       } else {
         this.nextPage = false;
       }
-      console.log(data);
     });
     this.sService.isClear.subscribe(data => {
       console.log(data);

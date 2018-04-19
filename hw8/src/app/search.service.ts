@@ -32,20 +32,18 @@ export class SearchService {
   constructor(private http: HttpClient) {}
 
   private searchResults: any;
-  private pageSaved = [];
+  private pageSaved: Array<string> = [];
 
   curPage = 1;
 
   search(form) {
-    // let body = JSON.stringify(form);
-    // console.log(body);
     this.showResult = true;
+    this.pageSaved.splice(0, this.pageSaved.length);
     let geo = form.geoJson;
     let location = form.location;
     if (!location) {
       location = "Your location";
     }
-    // geo.text = location;
     let params = new HttpParams()
       .set("keyword", form.keyword)
       .set("category", form.category || 'default')
@@ -53,8 +51,6 @@ export class SearchService {
       .set("isUserInput", form.isUserInput || false)
       .set("location", location)
       .set("geoJson", JSON.stringify(form.geoJson));
-    // console.log(geo);
-    // this.change.emit(this.showResult);
     let response = this.http.get("/api/search", { params: params });
     response.subscribe(
       data => {
@@ -86,6 +82,7 @@ export class SearchService {
         returnData.next_page_token = this.pageSaved[1];
       }
       this._resultJson.next(returnData);
+      console.log(this.pageSaved, returnData);
     } else {
       this.pageSaved.push(pagetoken);
       let response = this.http.get(
@@ -94,10 +91,7 @@ export class SearchService {
       );
       response.subscribe(data => {
         this._resultJson.next(data);
-        console.log(this.searchResults);
-        console.log(data["results"]);
         this.searchResults = this.searchResults.concat(data["results"]);
-        console.log(this.searchResults);
       });
     }
     this.curPage++;
@@ -105,14 +99,13 @@ export class SearchService {
 
   getPrevPage() {
     this.curPage--;
-    console.log(this.searchResults);
     let returnData: any = {};
     returnData.results = this.searchResults.slice(
       (this.curPage - 1) * 20,
       this.curPage * 20
     );
     returnData.next_page_token = this.pageSaved[this.curPage - 1];
-    console.log(returnData);
+    console.log(this.pageSaved, returnData);
     this._resultJson.next(returnData);
   }
 
@@ -125,5 +118,6 @@ export class SearchService {
     this._resultJson.next('clear');
     this.jsonData = undefined;
     this._isClear.next(true);
+    this.pageSaved.splice(0, this.pageSaved.length);
   }
 }
