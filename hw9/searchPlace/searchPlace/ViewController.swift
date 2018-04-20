@@ -13,6 +13,7 @@ import CoreLocation
 import EasyToast
 import Alamofire
 import SwiftSpinner
+import Kingfisher
 
 
 struct GeoJson {
@@ -41,15 +42,47 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         guard let cell: ResultCell = self.favoriteTableView.dequeueReusableCell(withIdentifier: "favoriteCell") as! ResultCell else {
             fatalError("The dequeued cell is not an instance of reviewcell")
         }
+        print("favcell")
+        let favData = Array(favStored)[indexPath.row].value as! [String: String]
+        cell.address.text = favData["address"]
+        cell.placeName.text = favData["name"]
+        let url = URL(string: favData["icon"]!)
+        cell.icon.kf.setImage(with: url)
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        SwiftSpinner.show("Loading")
+//        self.selectedIndex = indexPath.row!
+        let favData = Array(favStored)[indexPath.row].value as! [String: String]
+        self.selectedPlaceId = favData["placeId"]!
+        let params:Parameters = [
+            "placeId": favData["placeId"]!
+        ]
+        Alamofire.request("http://localhost:8081/api/details", parameters: params).responseJSON {
+            response in
+            switch response.result {
+            case .success: do {
+                print("success get details")
+                self.details = response.result.value as! AnyObject
+                self.myPerformSurge(identifier: "showDetailsFromFav")
+                SwiftSpinner.hide()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    var details: AnyObject?
     var placeClient: GMSPlacesClient!
     var locationManager: CLLocationManager!
     var myplace = GeoJson()
     var jsonData: Any?
     var userDefault = UserDefaults.standard
     var favCount: Int = 0
+    var favStored: [String: Any] = [:]
+    var selectedPlaceId: String?
     //MARK: Properties
     
     @IBOutlet weak var keywordField: UITextField!
@@ -65,8 +98,9 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     var autocompleteController = GMSAutocompleteViewController()
     
     func loadFavorites() {
-        let favStored = userDefault.dictionaryRepresentation()
-//        self.favCount = favStored.count
+        favStored = (userDefault.object(forKey: "favorite") as? [String: Any])!
+        self.favCount = (favStored.count)
+        DispatchQueue.main.async(execute: self.favoriteTableView.reloadData)
         print(favStored)
     }
     
@@ -88,6 +122,9 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         locationField.delegate = self
         categoryField.delegate = self
         distanceField.delegate = self
+        favoriteTableView.delegate = self
+        favoriteTableView.dataSource = self
+        favoriteTableView.rowHeight = 100
         autocompleteController.delegate = self
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -233,9 +270,103 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         performSegue(withIdentifier: identifier, sender: self)
     }
     
+    @objc func tweet() {
+        print("tweet")
+        let resultObj = self.details?["result"] as! [String: Any]
+        let urlString = "https://twitter.com/intent/tweet?text=Check out \(resultObj["name"]! as! String) at \(resultObj["formatted_address"]! as! String). Website: &hashtags=TravelAndEntertainmentSearch&url=\(resultObj["website"] as? String ?? "" )"
+        print(urlString)
+        let url = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        print(url)
+        if let urlopen = URL(string: url!) {
+            UIApplication.shared.open(urlopen, options: [:])
+        }
+        
+    }
+    
+    var favTobeRemoved: Any?
+    
+    func removeFavorite(data: [String: String]) {
+        let name = data["name"]!
+        self.view.showToast("\(name) was removed from favorites!", position: .bottom, popTime: 2, dismissOnTap: false)
+        self.favTobeRemoved = self.favStored[selectedPlaceId!]
+        self.favStored.removeValue(forKey: self.selectedPlaceId!)
+        userDefault.set(self.favStored, forKey: "favorite")
+        self.favCount -= 1
+    }
+    
+//    func checkIfFavorite() {
+//
+//    }
+//
+    @objc func like() {
+        print("like")
+//        let cellResult = self.result![self.selectIndex!] as! [String: Any]
+        let isFavorite = (self.favStored[self.selectedPlaceId!] != nil)
+        let favData = self.favStored[self.selectedPlaceId!] as! [String: String]
+        if isFavorite{
+            self.removeFavorite(data: favData)
+        }
+        else {
+            let name = favData["name"]
+            self.view.showToast("\(name) was added into favorites!", position: .bottom, popTime: 2, dismissOnTap: false)
+            
+            self.favStored[selectedPlaceId!] = self.favTobeRemoved
+            userDefault.set(self.favStored, forKey: "favorite")
+            self.favCount += 1
+//            self.setFavorite(cellResult: cellResult)
+        }
+        
+        self.updateNavbar(isFavorite: !isFavorite)
+        DispatchQueue.main.async(execute: self.favoriteTableView.reloadData)
+    }
+    
+    func updateNavbar(isFavorite: Bool) {
+        let tweet = UIBarButtonItem(image: #imageLiteral(resourceName: "forward"), style: .plain, target: self, action: #selector(self.tweet))
+        var like: UIBarButtonItem?
+        if isFavorite {
+            like = UIBarButtonItem(image: #imageLiteral(resourceName: "heart-filled"), style: .plain, target: self, action: #selector(self.like))
+        }
+        else {
+            like = UIBarButtonItem(image: #imageLiteral(resourceName: "heart-empty"), style: .plain, target: self, action: #selector(self.like))
+        }
+        self.tabnav?.rightBarButtonItems = [like!, tweet]
+    }
+    
+    var tabnav: UINavigationItem?
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let resultVC: ResultViewController = segue.destination as! ResultViewController
-        resultVC.data = self.jsonData as AnyObject
+        if segue.identifier == "showResult" {
+            let resultVC: ResultViewController = segue.destination as! ResultViewController
+            resultVC.data = self.jsonData as AnyObject
+        }
+        if segue.identifier == "showDetailsFromFav" {
+            let placeId = self.selectedPlaceId
+            let resultObj = self.details?["result"] as AnyObject
+            
+            let tabViewController: UITabBarController = segue.destination as! UITabBarController
+            self.tabnav = tabViewController.navigationItem
+            tabViewController.title = resultObj["name"] as? String
+            let tweet = UIBarButtonItem(image: #imageLiteral(resourceName: "forward"), style: .plain, target: self, action: #selector(self.tweet))
+            var like: UIBarButtonItem?
+                like = UIBarButtonItem(image: #imageLiteral(resourceName: "heart-filled"), style: .plain, target: self, action: #selector(self.like))
+
+            tabViewController.navigationItem.rightBarButtonItems = [like!, tweet]
+            let infoViewController: InfoView = tabViewController.viewControllers?[0] as! InfoView
+            let photoViewController: PhotosView = tabViewController.viewControllers?[1] as! PhotosView
+            let mapViewController: MapView = tabViewController.viewControllers?[2] as! MapView
+            let reviewViewController: ReviewView = tabViewController.viewControllers?[3] as! ReviewView
+            let yelpInfo: [String: Any] = [
+                "name": resultObj["name"] as! String,
+                "addr": resultObj["address_components"] as! NSArray
+            ]
+            infoViewController.infoData = self.details?["result"] as! [String: Any]
+            //            let photos = (self.details?["result"] as AnyObject)["photos"] as AnyObject
+            photoViewController.placeId = placeId
+            reviewViewController.reviewData = resultObj["reviews"] as AnyObject
+            reviewViewController.yelpInfo = yelpInfo
+            mapViewController.geodata = resultObj["geometry"] as AnyObject
+        }
+        
     }
     
     
@@ -255,7 +386,7 @@ extension ViewController: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.locationField.text =  "\(place.name), \(String(describing: place.formattedAddress!))"
+        self.locationField.text =  "\(String(describing: place.formattedAddress!))"
         dismiss(animated: true, completion: nil)
     }
     

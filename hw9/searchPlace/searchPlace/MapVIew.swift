@@ -137,7 +137,7 @@ extension MapView: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.startInputView.text =  "\(place.name), \(String(describing: place.formattedAddress!))"
+        self.startInputView.text =  "\(String(describing: place.formattedAddress!))"
         self.startgeo = place.coordinate
 //        print(startgeo)
         self.getRoutes(startgeo: startgeo!, endgeo: self.endgeo!)

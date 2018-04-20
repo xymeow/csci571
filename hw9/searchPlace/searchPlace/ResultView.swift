@@ -182,7 +182,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 "name": resultObj["name"] as! String,
                 "addr": resultObj["address_components"] as! NSArray
             ]
-            infoViewController.infoData = self.details?["result"] as AnyObject
+            infoViewController.infoData = self.details?["result"] as! [String: Any]
 //            let photos = (self.details?["result"] as AnyObject)["photos"] as AnyObject
             photoViewController.placeId = placeId
             reviewViewController.reviewData = resultObj["reviews"] as AnyObject
