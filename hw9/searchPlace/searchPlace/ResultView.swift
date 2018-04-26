@@ -28,6 +28,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var prevButtonView: UIButton!
     @IBOutlet weak var nextbuttonView: UIButton!
     @IBOutlet weak var resultTable: UITableView!
+    @IBOutlet weak var noResultView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Search Results"
@@ -46,6 +47,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.checkFavorite()
         if nextPageToken == nil {
             nextbuttonView.isEnabled = false
+        }
+        if self.result?.count == 0 {
+            self.resultTable.backgroundView = noResultView
+        }
+        else {
+            self.resultTable.backgroundView = nil
         }
     }
     
@@ -96,7 +103,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let params:Parameters = [
             "placeId": (self.result![indexPath.row] as AnyObject)["place_id"] as! String
         ]
-        Alamofire.request("http://localhost:8081/api/details", parameters: params).responseJSON {
+        Alamofire.request("http://searchplace-env.us-east-2.elasticbeanstalk.com/api/details", parameters: params).responseJSON {
             response in
             switch response.result {
             case .success: do {
@@ -118,7 +125,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func tweet() {
         print("tweet")
         let resultObj = self.details?["result"] as AnyObject
-        let urlString = "https://twitter.com/intent/tweet?text=Check out \(resultObj["name"]! as! String) at \(resultObj["formatted_address"]! as! String). Website: &hashtags=TravelAndEntertainmentSearch&url=\(resultObj["website"]! as! String)"
+        let urlString = "https://twitter.com/intent/tweet?text=Check out \(resultObj["name"]! as! String) at \(resultObj["formatted_address"]! as? String ?? "" ). Website: &hashtags=TravelAndEntertainmentSearch&url=\(resultObj["website"] as? String ?? "" )"
         print(urlString)
         let url = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         print(url)
@@ -247,7 +254,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 "pagetoken": self.nextPageToken!
             ]
             SwiftSpinner.show("Fetching next page...")
-            Alamofire.request("http://localhost:8081/api/nextpage", parameters: params).responseJSON {
+            Alamofire.request("http://searchplace-env.us-east-2.elasticbeanstalk.com/api/nextpage", parameters: params).responseJSON {
                 response in
                 switch response.result {
                 case .success:

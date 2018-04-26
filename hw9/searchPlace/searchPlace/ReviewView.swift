@@ -13,7 +13,7 @@ import Alamofire
 
 class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (reviewArray?.count)!
+        return reviewArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -91,7 +91,7 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
             "state": flatinfo["administrative_area_level_1"] as! String,
             "country": flatinfo["country"] as! String
         ]
-        Alamofire.request("http://localhost:8081/api/yelp_review", parameters: params).responseJSON {
+        Alamofire.request("http://searchplace-env.us-east-2.elasticbeanstalk.com/api/yelp_review", parameters: params).responseJSON {
             response in
             switch response.result {
             case .success: do {
@@ -116,13 +116,15 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     private func noReview() {
-        self.noReviewView.alpha = 1
-        self.reviewTableView.alpha = 0
+//        self.noReviewView.alpha = 1
+//        self.reviewTableView.alpha = 0
+        self.reviewTableView.backgroundView = self.noReviewView
     }
     
     private func hasReview() {
-        self.noReviewView.alpha = 0
-        self.reviewTableView.alpha = 1
+//        self.noReviewView.alpha = 0
+//        self.reviewTableView.alpha = 1
+        self.reviewTableView.backgroundView = nil
     }
     
     func dealWithYelpReview(review: NSArray) -> NSArray {
@@ -140,7 +142,13 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @objc func reviewTypeChanged(segment: UISegmentedControl) {
         reviewTableView.setContentOffset(CGPoint.zero, animated: false)
         if segment.selectedSegmentIndex == 0 {
-            showGgReview()
+            if self.ggReview != nil {
+                self.hasReview()
+                showGgReview()
+            }
+            else {
+                self.noReview()
+            }
         }
         else {
             if yelpReview == nil {
@@ -152,24 +160,27 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
         self.selectReviewType = segment.selectedSegmentIndex
+        sortReviews(order: self.selectSortBy)
         DispatchQueue.main.async(execute: self.reviewTableView.reloadData)
 //
     }
     
     @objc func reviewOrderChanged(segment: UISegmentedControl) {
         let order = sortBy(rawValue: segment.selectedSegmentIndex)
+        self.selectSortBy = order!
         if self.reviewArray != nil {
             self.sortReviews(order: order!)
         }
-        self.selectSortBy = order!
+        
     }
     
     @objc func orderChanged(segment: UISegmentedControl) {
         self.selectOrder = segment.selectedSegmentIndex
         sortReviews(order: selectSortBy)
-        if self.selectOrder == 0 && self.selectSortBy != .Default && self.reviewArray != nil {
-            self.reviewArray = self.reviewArray?.reversed() as! NSArray
-        }
+//        if self.selectOrder == 0 && self.selectSortBy != .Default && self.reviewArray != nil {
+//            self.reviewArray = self.reviewArray?.reversed() as! NSArray
+//            DispatchQueue.main.async(execute: self.reviewTableView.reloadData)
+//        }
     }
     
     func sortReviews(order: sortBy) {
@@ -200,6 +211,11 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
         default:
             return
         }
+        if self.selectOrder == 0 && self.selectSortBy != .Default && self.reviewArray != nil {
+            self.reviewArray = self.reviewArray?.reversed() as! NSArray
+            DispatchQueue.main.async(execute: self.reviewTableView.reloadData)
+        }
+
     }
     
     enum sortBy: Int {
@@ -240,9 +256,9 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.reviewTableView.dataSource = self
         self.reviewTableView.rowHeight = 200
 //        self.noReviewView.alpha = 0
-        reviewArray = reviewData as! NSArray
+        reviewArray = reviewData as? NSArray ?? nil
         ggReview = reviewArray
-        print(reviewArray)
+//        print(reviewArray)
         if ggReview == nil {
             self.noReview()
         }

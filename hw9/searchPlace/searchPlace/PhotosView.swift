@@ -20,7 +20,7 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         let cell: UICollectionViewCell = photosCollection.dequeueReusableCell(withReuseIdentifier: "photo", for: indexPath)
         let bgImg = UIImageView()
         bgImg.image = self.photos[indexPath.row]
-        bgImg.contentMode = .scaleToFill
+        bgImg.contentMode = .scaleAspectFill
         cell.backgroundView = bgImg
         return cell
     }
@@ -30,7 +30,9 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
             if let error = error {
                 // TODO: handle the error.
                 print("Error: \(error.localizedDescription)")
+                self.photosCollection.backgroundView = self.noPhotosView
             } else {
+                self.photosCollection.backgroundView = self.noPhotosView
                 photos?.results.forEach {
                     (metadata) -> Void in
                         self.loadImageForMetadata(photoMetadata: metadata)
@@ -47,6 +49,7 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
                 print("Error: \(error.localizedDescription)")
             } else {
                 self.photos.append(photo!)
+                self.photosCollection.backgroundView = nil
                 DispatchQueue.main.async(execute: self.photosCollection.reloadData)
             }
         })
@@ -55,11 +58,14 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     var placeId: String?
     private var photos = [UIImage]()
     @IBOutlet var photosCollection: UICollectionView!
+    @IBOutlet weak var noPhotosView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.photosCollection.delegate = self
         self.photosCollection.dataSource = self
+        
         self.loadPhotoForPlace(placeID: self.placeId!)
+        
     }
     
     

@@ -111,7 +111,7 @@ class MapView: UIViewController {
             "destination": ["lat": endgeo.latitude, "lng": endgeo.longitude],
             "mode": self.modeSelected.text!
         ]
-        Alamofire.request("http://localhost:8081/api/routes", parameters: params).responseJSON {
+        Alamofire.request("http://searchplace-env.us-east-2.elasticbeanstalk.com/api/routes", parameters: params).responseJSON {
             response in
             switch response.result {
             case .success:

@@ -172,12 +172,27 @@
                         <outlet property="favoriteTableView" destination="fms-LN-Bjt" id="em4-C0-P6b"/>
                         <outlet property="keywordField" destination="gEB-K8-tFS" id="bMI-du-x3x"/>
                         <outlet property="locationField" destination="a8d-WV-m7D" id="wmx-Gk-hcV"/>
+                        <outlet property="noResult" destination="vzJ-sB-E1p" id="GB0-hI-soW"/>
                         <outlet property="searchButton" destination="m9u-YT-xsX" id="vyI-of-IZN"/>
                         <segue destination="60U-av-nd9" kind="show" identifier="showResult" id="t9q-4u-Yoo"/>
                         <segue destination="8of-sk-Qns" kind="show" identifier="showDetailsFromFav" id="d21-6K-g7Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="vzJ-sB-E1p">
+                    <rect key="frame" x="0.0" y="0.0" width="406" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No result!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woc-SX-d4D">
+                            <rect key="frame" x="166" y="54" width="75" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="37.681159420289859" y="120.65217391304348"/>
         </scene>
@@ -273,15 +288,32 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title=" " id="80j-kt-Zww"/>
+                    <navigationItem key="navigationItem" title=" " id="80j-kt-Zww">
+                        <barButtonItem key="backBarButtonItem" title=" " id="PRb-aG-wA6"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="nextbuttonView" destination="I7p-4E-BAS" id="DWg-6Q-sFt"/>
+                        <outlet property="noResultView" destination="7mL-S3-9jC" id="Mke-qo-4k6"/>
                         <outlet property="prevButtonView" destination="7YB-b4-PlF" id="JWR-wa-mh5"/>
                         <outlet property="resultTable" destination="KFh-Uj-8N4" id="2LF-hk-a24"/>
                         <segue destination="8of-sk-Qns" kind="show" identifier="showDetails" id="L1j-aC-U7l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7kP-Ki-zHu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="7mL-S3-9jC">
+                    <rect key="frame" x="0.0" y="0.0" width="416" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No result!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0C-a1-zsJ">
+                            <rect key="frame" x="171" y="54" width="75" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="1093" y="131"/>
         </scene>
@@ -324,10 +356,25 @@
                     <tabBarItem key="tabBarItem" title="PHOTOS" image="photos" selectedImage="photos" id="Nug-lg-vU5"/>
                     <navigationItem key="navigationItem" title="Title" id="9X3-4u-gw2"/>
                     <connections>
+                        <outlet property="noPhotosView" destination="bZi-fd-rtl" id="mHm-Gr-bDX"/>
                         <outlet property="photosCollection" destination="X4p-wm-SjS" id="jSp-8M-CTJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fU8-2y-fkP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="bZi-fd-rtl">
+                    <rect key="frame" x="0.0" y="0.0" width="405" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No photos!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0yr-9A-MAn">
+                            <rect key="frame" x="160" y="54" width="85" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="4215.9420289855079" y="121.46739130434784"/>
         </scene>
@@ -453,7 +500,7 @@
                                 <rect key="frame" x="0.0" y="253" width="414" height="434"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No reviews!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cuc-aL-QU1">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No reviews!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cuc-aL-QU1">
                                         <rect key="frame" x="0.0" y="195" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -673,6 +720,13 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02i-yX-ur8">
+                                <rect key="frame" x="186" y="316" width="168" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -680,6 +734,7 @@
                     <connections>
                         <outlet property="address" destination="lCr-5Z-VQ2" id="nPE-Y6-r5f"/>
                         <outlet property="ggPage" destination="Tnl-FR-DvL" id="lkr-ZI-e5g"/>
+                        <outlet property="noRatingTextField" destination="02i-yX-ur8" id="f3y-jM-RDg"/>
                         <outlet property="phoneNumber" destination="WQ5-J3-9Sh" id="llx-WT-79Z"/>
                         <outlet property="priceLevel" destination="JXZ-k7-kI4" id="Crn-RP-bSc"/>
                         <outlet property="rating" destination="oy6-Pk-i7f" id="hYa-Uy-wK1"/>
@@ -719,6 +774,6 @@
         <image name="review" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="d21-6K-g7Z"/>
+        <segue reference="L1j-aC-U7l"/>
     </inferredMetricsTieBreakers>
 </document>

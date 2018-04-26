@@ -19,7 +19,7 @@ class InfoView: UIViewController {
     @IBOutlet weak var rating: CosmosView!
     @IBOutlet weak var website: UITextView!
     @IBOutlet weak var ggPage: UITextView!
-
+    @IBOutlet weak var noRatingTextField: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         print(infoData)
@@ -27,40 +27,19 @@ class InfoView: UIViewController {
         let title = infoData!["name"] as! String
         self.rating.settings.updateOnTouch = false
         if infoData!["rating"] != nil {
-            print(infoData!["rating"] == nil)
+            self.rating.alpha = 1
+            self.noRatingTextField.alpha = 0
             self.rating.rating = Double(infoData!["rating"] as! Float)
         }
         else {
-            self.rating.text = noResult
+            self.rating.alpha = 0
+            self.noRatingTextField.alpha = 1
         }
         
-        if infoData!["vicinity"] != nil {
-            self.address.text = infoData!["vicinity"] as! String
-        }
-        else {
-            self.address.text = noResult
-        }
-        
-        if infoData!["international_phone_number"] != nil {
-            self.phoneNumber.text = infoData!["international_phone_number"] as! String
-        }
-        else {
-            self.phoneNumber.text = noResult
-        }
-        
-        if infoData!["website"] != nil {
-            self.website.text = infoData!["website"] as! String
-        }
-        else {
-            self.website.text = noResult
-        }
-        
-        if infoData!["url"] != nil {
-            self.ggPage.text = infoData!["url"] as! String
-        }
-        else {
-            self.ggPage.text = noResult
-        }
+            self.address.text = infoData!["formatted_address"] as? String ?? noResult
+            self.phoneNumber.text = infoData!["international_phone_number"] as? String ?? noResult
+            self.website.text = infoData!["website"] as? String ?? noResult
+            self.ggPage.text = infoData!["url"] as? String ?? noResult
         
         if infoData! ["price_level"] != nil {
             self.priceLevel.text = priceLvlMap[infoData! ["price_level"] as! Int]

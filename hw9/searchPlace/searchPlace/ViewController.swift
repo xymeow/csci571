@@ -35,14 +35,14 @@ struct GeoJson {
 class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.favCount
+        return self.favCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: ResultCell = self.favoriteTableView.dequeueReusableCell(withIdentifier: "favoriteCell") as! ResultCell else {
             fatalError("The dequeued cell is not an instance of reviewcell")
         }
-        print("favcell")
+//        print("favcell")
         let favData = Array(favStored)[indexPath.row].value as! [String: String]
         cell.address.text = favData["address"]
         cell.placeName.text = favData["name"]
@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         let params:Parameters = [
             "placeId": favData["placeId"]!
         ]
-        Alamofire.request("http://localhost:8081/api/details", parameters: params).responseJSON {
+        Alamofire.request("http://searchplace-env.us-east-2.elasticbeanstalk.com/api/details", parameters: params).responseJSON {
             response in
             switch response.result {
             case .success: do {
@@ -70,6 +70,23 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
                 }
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            let favData = Array(favStored)[indexPath.row].value as! [String: String]
+            self.selectedPlaceId = favData["placeId"]
+            self.removeFavorite(data: favData)
+//            self.favCount -= 1
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            if self.favCount == 0 {
+                self.favoriteTableView.backgroundView = noResult
             }
         }
     }
@@ -87,6 +104,7 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     
     @IBOutlet weak var keywordField: UITextField!
     
+    @IBOutlet var noResult: UIView!
     @IBOutlet weak var categoryField: McTextField!
     @IBOutlet weak var locationField: UITextField!
     @IBOutlet weak var distanceField: UITextField!
@@ -100,8 +118,14 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     func loadFavorites() {
         favStored = (userDefault.object(forKey: "favorite") as? [String: Any])!
         self.favCount = (favStored.count)
+        if self.favCount == 0 {
+            self.favoriteTableView.backgroundView = noResult
+        }
+        else {
+            self.favoriteTableView.backgroundView = nil
+        }
         DispatchQueue.main.async(execute: self.favoriteTableView.reloadData)
-        print(favStored)
+//        print(favStored)
     }
     
     @objc func segmentControl(segment: UISegmentedControl) {
@@ -249,7 +273,7 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
             "geoJson": ["lat": myplace.lat, "lng": myplace.lng]
         ]
         SwiftSpinner.show("Loading")
-        Alamofire.request("http://localhost:8081/api/search", parameters: params).responseJSON {response in
+        Alamofire.request("http://searchplace-env.us-east-2.elasticbeanstalk.com/api/search", parameters: params).responseJSON {response in
             switch response.result {
             case .success: do {
                 print("success")
@@ -273,7 +297,7 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     @objc func tweet() {
         print("tweet")
         let resultObj = self.details?["result"] as! [String: Any]
-        let urlString = "https://twitter.com/intent/tweet?text=Check out \(resultObj["name"]! as! String) at \(resultObj["formatted_address"]! as! String). Website: &hashtags=TravelAndEntertainmentSearch&url=\(resultObj["website"] as? String ?? "" )"
+        let urlString = "https://twitter.com/intent/tweet?text=Check out \(resultObj["name"]! as! String) at \(resultObj["formatted_address"]! as? String ?? "" ). Website: &hashtags=TravelAndEntertainmentSearch&url=\(resultObj["website"] as? String ?? "" )"
         print(urlString)
         let url = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         print(url)
@@ -292,6 +316,9 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         self.favStored.removeValue(forKey: self.selectedPlaceId!)
         userDefault.set(self.favStored, forKey: "favorite")
         self.favCount -= 1
+        if self.favCount == 0 {
+            self.favoriteTableView.backgroundView = noResult
+        }
     }
     
 //    func checkIfFavorite() {
