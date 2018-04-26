@@ -22,11 +22,11 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
             fatalError("The dequeued cell is not an instance of reviewcell")
         }
         let review = reviewArray![indexPath.row] as! [String: Any]
-        let authorName = review["author_name"] as! String
-        let rating = Double(review["rating"] as! Int)
+        let authorName = review["author_name"] as? String ?? ""
+        let rating = Double(review["rating"] as? Int ?? 0)
 //        let reviewTime = "\(review["time"])" as! String
-        let reviewText = review["text"] as! String
-        let timeItv: TimeInterval = TimeInterval(review["time"] as! Int)
+        let reviewText = review["text"] as? String ?? ""
+        let timeItv: TimeInterval = TimeInterval(review["time"] as? Int ?? 0)
         let date = Date(timeIntervalSince1970: timeItv)
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -35,7 +35,7 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.reviewRate.rating = rating
         cell.reviewTime.text = time
         cell.reviewText.text = reviewText
-        let avatarUrlString = review["profile_photo_url"] as! String
+        let avatarUrlString = review["profile_photo_url"] as? String ?? ""
         let avatarUrl = URL(string: avatarUrlString)
         cell.authorImg.kf.setImage(with: avatarUrl)
         return cell
@@ -116,14 +116,10 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     private func noReview() {
-//        self.noReviewView.alpha = 1
-//        self.reviewTableView.alpha = 0
         self.reviewTableView.backgroundView = self.noReviewView
     }
     
     private func hasReview() {
-//        self.noReviewView.alpha = 0
-//        self.reviewTableView.alpha = 1
         self.reviewTableView.backgroundView = nil
     }
     
@@ -251,14 +247,11 @@ class ReviewView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var noReviewView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.reviewTableView.register(UITableViewCell.self, forCellReuseIdentifier: "reviewCell")
         self.reviewTableView.delegate = self
         self.reviewTableView.dataSource = self
         self.reviewTableView.rowHeight = 200
-//        self.noReviewView.alpha = 0
         reviewArray = reviewData as? NSArray ?? nil
         ggReview = reviewArray
-//        print(reviewArray)
         if ggReview == nil {
             self.noReview()
         }

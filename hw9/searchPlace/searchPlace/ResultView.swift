@@ -32,6 +32,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Search Results"
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         favStored = userDefault.object(forKey: "favorite") as? [String: Any]
         if favStored == nil {
             favStored = [:]
@@ -171,6 +172,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let tabViewController: UITabBarController = segue.destination as! UITabBarController
             self.tabnav = tabViewController.navigationItem
             tabViewController.title = resultObj["name"] as? String
+            tabnav?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             let tweet = UIBarButtonItem(image: #imageLiteral(resourceName: "forward"), style: .plain, target: self, action: #selector(self.tweet))
             var like: UIBarButtonItem?
             if self.isFavorite[self.selectIndex!] {

@@ -28,11 +28,15 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
     func loadPhotoForPlace(placeID: String) {
         GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
             if let error = error {
-                // TODO: handle the error.
                 print("Error: \(error.localizedDescription)")
                 self.photosCollection.backgroundView = self.noPhotosView
             } else {
-                self.photosCollection.backgroundView = self.noPhotosView
+                if photos?.results.count == 0 {
+                    self.photosCollection.backgroundView = self.noPhotosView
+                }
+                else {
+                    self.photosCollection.backgroundView = nil
+                }
                 photos?.results.forEach {
                     (metadata) -> Void in
                         self.loadImageForMetadata(photoMetadata: metadata)
@@ -45,11 +49,9 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: {
             (photo, error) -> Void in
             if let error = error {
-                // TODO: handle the error.
                 print("Error: \(error.localizedDescription)")
             } else {
                 self.photos.append(photo!)
-                self.photosCollection.backgroundView = nil
                 DispatchQueue.main.async(execute: self.photosCollection.reloadData)
             }
         })
@@ -63,11 +65,6 @@ class PhotosView: UIViewController, UICollectionViewDelegate, UICollectionViewDa
         super.viewDidLoad()
         self.photosCollection.delegate = self
         self.photosCollection.dataSource = self
-        
         self.loadPhotoForPlace(placeID: self.placeId!)
-        
     }
-    
-    
-    
 }

@@ -163,7 +163,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title=" " id="cDR-g8-RNo"/>
+                    <navigationItem key="navigationItem" title=" " id="cDR-g8-RNo">
+                        <barButtonItem key="backBarButtonItem" title=" " id="3qg-II-wnG"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="categoryField" destination="Vul-oM-X84" id="MKw-Xm-O5L"/>
                         <outlet property="clearButton" destination="Tew-FG-H4D" id="0sA-HV-xVB"/>
@@ -720,7 +722,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02i-yX-ur8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="02i-yX-ur8">
                                 <rect key="frame" x="186" y="316" width="168" height="47"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

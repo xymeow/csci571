@@ -235,12 +235,10 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
     @IBAction func search(_ sender: UIButton) {
         print(keywordField.text)
         if (keywordField.text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
-//            print("keyword error")
             self.view.showToast("keyword can not be empty!", position: .bottom, popTime: 2, dismissOnTap: false)
             return
         }
         if (locationField.text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
-//            print("location error")
             self.view.showToast("location can not be empty!", position: .bottom, popTime: 2, dismissOnTap: false)
             return
         }
@@ -269,7 +267,6 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
             "distance": distance,
             "isUserInput": isUserInput,
             "location": location,
-//            "geoJson": "{lat: \(myplace.lat), lng: \(myplace.lng)}"
             "geoJson": ["lat": myplace.lat, "lng": myplace.lng]
         ]
         SwiftSpinner.show("Loading")
@@ -321,13 +318,8 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
         }
     }
     
-//    func checkIfFavorite() {
-//
-//    }
-//
     @objc func like() {
         print("like")
-//        let cellResult = self.result![self.selectIndex!] as! [String: Any]
         let isFavorite = (self.favStored[self.selectedPlaceId!] != nil)
         let favData = self.favStored[self.selectedPlaceId!] as! [String: String]
         if isFavorite{
@@ -372,6 +364,8 @@ class ViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDe
             
             let tabViewController: UITabBarController = segue.destination as! UITabBarController
             self.tabnav = tabViewController.navigationItem
+            self.tabnav?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
             tabViewController.title = resultObj["name"] as? String
             let tweet = UIBarButtonItem(image: #imageLiteral(resourceName: "forward"), style: .plain, target: self, action: #selector(self.tweet))
             var like: UIBarButtonItem?
