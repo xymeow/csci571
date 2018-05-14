@@ -7,9 +7,8 @@ const yelp = require("yelp-fusion");
 var form = null;
 var result = {};
 
-const key = "AIzaSyBXJZOfWGzQ9I31v3liRqb4RumMPeC2Tbo";
-const yelp_key =
-  "zKvdPM6KCFwyUOSZl_vQt8U00kxchLYYK21J4BViwst_BgfWUAgH21hzUSSMQ0p8FhWS2z-T4N8kevV-CuUmx-0MCdhyIW-2Se5Kt33umMJAqPn4YRiWrSrlDqzBWnYx";
+const key = "";
+const yelp_key = "";
 
 const yelp_client = yelp.client(yelp_key);
 

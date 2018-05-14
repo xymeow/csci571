@@ -3,24 +3,14 @@
   display: inline-block;
 }
 .star-ratings-css {
-<<<<<<< HEAD
-    unicode-bidi: bidi-override;
-    position: relative;
-    padding: 0;
-    width: 5em;
-    display: inline-block;
-    font-size: 1em;
-    padding-bottom: 1.1rem;
-    font-family: Arial !important;
-=======
   unicode-bidi: bidi-override;
   position: relative;
   padding: 0;
-  width: 71px;
+  width: 5em;
   display: inline-block;
-  font-size: 16px;
+  font-size: 1em;
   padding-bottom: 1.1rem;
->>>>>>> dbc16a33e1477652aeb7d3362047fd3fd16559fc
+  font-family: Arial !important;
 }
 
 .star-ratings-css-top {
