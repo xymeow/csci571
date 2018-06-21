@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
 import { SearchForm } from "./search-form";
 import { NgForm } from "@angular/forms/src/directives/ng_form";
-import { SearchService } from "../search.service";
-// import { HttpClient } from '@angular/common/http';
+import { SearchService } from "../services/search.service";
 
 @Component({
   selector: "app-search-form",
@@ -75,7 +74,6 @@ export class SearchFormComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // this.form.category = 'default';
     this.getGeo();
   }
 }

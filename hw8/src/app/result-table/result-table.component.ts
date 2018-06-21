@@ -7,9 +7,9 @@ import {
   OnChanges,
   Input
 } from "@angular/core";
-import { SearchService } from "../search.service";
-import { DetailsService } from "../details.service";
-import { FavoriteService } from "../favorite.service";
+import { SearchService } from "../services/search.service";
+import { DetailsService } from "../services/details.service";
+import { FavoriteService } from "../services/favorite.service";
 import { error } from "selenium-webdriver";
 
 declare var google: any;

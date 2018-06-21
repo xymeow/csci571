@@ -1,10 +1,9 @@
 import { Component, OnInit, NgZone, EventEmitter, Output } from "@angular/core";
-import { SearchService } from "../search.service";
+import { SearchService } from "../services/search.service";
 import { Info } from "./info-tab/info";
-import { DetailsService } from "../details.service";
-import { WindowRefService } from "../window-ref.service";
+import { DetailsService } from "../services/details.service";
 import { Directions } from "./map-tab/direction";
-import { FavoriteService } from "../favorite.service";
+import { FavoriteService } from "../services/favorite.service";
 
 @Component({
   selector: "app-details",
@@ -23,8 +22,6 @@ export class DetailsComponent implements OnInit {
   details: any;
 
   private activeId = "info-tab";
-
-  nativeWindow: any;
 
   infoJson: Info;
   mapJson: Directions;
@@ -65,7 +62,7 @@ export class DetailsComponent implements OnInit {
     }. Website: `;
     url += "&hashtags=TravelAndEntertainmentSearch";
     url += "&url=" + this.details.website;
-    var newWin = this.nativeWindow.open(url, "tweet", "height=600, width=600");
+    var newWin = window.open(url, "tweet", "height=600, width=600");
   }
 
   setInfo(data) {
@@ -119,7 +116,6 @@ export class DetailsComponent implements OnInit {
     private dService: DetailsService,
     private fService: FavoriteService,
     private zone: NgZone,
-    private winRef: WindowRefService
   ) {
     this.dService.details.subscribe(data => {
       this.zone.run(() => {
@@ -131,7 +127,6 @@ export class DetailsComponent implements OnInit {
         this.isFavorited = this.fService.isFavorited([data["place_id"]])[0];
       });
     });
-    this.nativeWindow = winRef.getNativeWindow();
   }
 
   ngOnInit() {}

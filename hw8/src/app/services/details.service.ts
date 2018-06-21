@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs/Subject";
-import { Info } from "./details/info-tab/info";
+import { Info } from "../details/info-tab/info";
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
-import { LoaderService } from "./loader/loader.service";
+import { LoaderService } from "../loader/loader.service";
+import { API } from "../api";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -43,7 +44,7 @@ export class DetailsService {
     if (address) {
       httpParams = httpParams.set("address", address);
     }
-    return this.http.get("/api/yelp_review", { params: httpParams });
+    return this.http.get(API.yelpReview, { params: httpParams });
   }
 
   getDetails(place_id, start = "",geo = { }) {

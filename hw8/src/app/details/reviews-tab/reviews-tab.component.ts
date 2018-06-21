@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-import { DetailsService } from "../../details.service";
+import { DetailsService } from "../../services/details.service";
 import { fadeInAnimation } from "../../fade-in.animation";
 import * as moment from "moment";
 

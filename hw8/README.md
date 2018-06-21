@@ -2,11 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
-A web app that allow users to search for places and get details using the Google Places & Google Maps API.
+A serverless web app that allow users to search for places and get details using the Google Places & Google Maps API.
 
 Implemented by Angular 5 & NodeJS
 
-Online demo: [demo](http://searchplace-env.us-east-2.elasticbeanstalk.com/)
+Backend hosted on AWS Lambda
+
+Online demo: [demo](http://search-place.s3-website-us-west-1.amazonaws.com/)
 
 ### Features:
 

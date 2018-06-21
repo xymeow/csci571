@@ -22,11 +22,12 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "angular5": "^1.0.0",
+    "aws-amplify": "^0.4.5",
+    "aws-amplify-angular": "^0.1.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "core-js": "^2.4.1",
     "ejs": "^2.5.8",
-    "express": "^4.16.3",
     "moment": "^2.22.0",
     "morgan": "^1.9.0",
     "rxjs": "^5.5.6",
@@ -36,7 +37,7 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.3",
+    "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/googlemaps": "^3.30.8",

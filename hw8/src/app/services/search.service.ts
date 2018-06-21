@@ -2,17 +2,15 @@ import { Injectable, EventEmitter, Output } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
+import { API } from "../api";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
 };
 
-// declare var google:any;
-
 @Injectable()
 export class SearchService {
   showResult = false;
-  // response = new Observable<any>();
   private _resultJson = new Subject();
   resultJson = this._resultJson.asObservable();
   service: any;
@@ -46,16 +44,18 @@ export class SearchService {
     }
     let params = new HttpParams()
       .set("keyword", form.keyword)
-      .set("category", form.category || 'default')
-      .set("distance", form.distance || '10')
+      .set("category", form.category || "default")
+      .set("distance", form.distance || "10")
       .set("isUserInput", form.isUserInput || false)
       .set("location", location)
       .set("geoJson", JSON.stringify(form.geoJson));
-    let response = this.http.get("/api/search", { params: params });
+
+    let response = this.http.get(API.search, { params: params });
+
     response.subscribe(
       data => {
         this.jsonData = data;
-        this.jsonData.geoJson = geo
+        this.jsonData.geoJson = geo;
         this.jsonData.startLocation = location;
         this._resultJson.next(this.jsonData);
         this._isDataGet.next(true);
@@ -85,9 +85,9 @@ export class SearchService {
       console.log(this.pageSaved, returnData);
     } else {
       this.pageSaved.push(pagetoken);
+      const params = new HttpParams().set("pagetoken", pagetoken)
       let response = this.http.get(
-        "/api/nextpage?pagetoken=" + pagetoken,
-        httpOptions
+        API.nextpage, {params: params}
       );
       response.subscribe(data => {
         this._resultJson.next(data);
@@ -110,12 +110,12 @@ export class SearchService {
   }
 
   getGeolocation() {
-    let url = "http://ip-api.com/json";
+    const url = "http://ip-api.com/json";
     return this.http.get(url);
   }
 
   clear() {
-    this._resultJson.next('clear');
+    this._resultJson.next("clear");
     this.jsonData = undefined;
     this._isClear.next(true);
     this.pageSaved.splice(0, this.pageSaved.length);

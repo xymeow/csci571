@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from "@angular/core";
 import { Info } from "./info";
-import { SearchService } from "../../search.service";
-import { DetailsService } from "../../details.service";
+import { SearchService } from "../../services/search.service";
+import { DetailsService } from "../../services/details.service";
 import * as moment from "moment";
 
 @Component({

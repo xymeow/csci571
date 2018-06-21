@@ -6,9 +6,9 @@ import {
   Input,
   EventEmitter
 } from "@angular/core";
-import { FavoriteService } from "../favorite.service";
-import { DetailsService } from "../details.service";
-import { SearchService } from "../search.service";
+import { FavoriteService } from "../services/favorite.service";
+import { DetailsService } from "../services/details.service";
+import { SearchService } from "../services/search.service";
 
 @Component({
   selector: "app-favorite",

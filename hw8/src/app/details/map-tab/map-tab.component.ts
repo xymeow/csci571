@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnChanges, OnDestroy } from "@angular/core";
-import { DetailsService } from "../../details.service";
+import { DetailsService } from "../../services/details.service";
 import { Directions } from "./direction";
 import { LoaderService } from "../../loader/loader.service";
-import { SearchService } from "../../search.service";
+import { SearchService } from "../../services/search.service";
 
 declare var google: any;
 
@@ -73,7 +73,6 @@ export class MapTabComponent implements OnChanges, OnDestroy {
     this.startInput = (<HTMLInputElement>document.getElementById(
       "dir-start"
     )).value;
-    // this.startInput = event.name;
   }
 
   showPanorama() {

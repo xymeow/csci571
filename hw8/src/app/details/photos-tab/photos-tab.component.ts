@@ -1,5 +1,5 @@
 import { Component, OnChanges, ChangeDetectorRef, Input } from "@angular/core";
-import { DetailsService } from "../../details.service";
+import { DetailsService } from "../../services/details.service";
 
 @Component({
   selector: "app-photos-tab",
@@ -20,7 +20,6 @@ export class PhotosTabComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges() {
-    // this.resizeAllGridItems();
     if(!this.photos) {
       return;
     }
