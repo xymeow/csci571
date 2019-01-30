@@ -13,29 +13,37 @@ Online demo: [demo](http://search-place.s3-website-us-west-1.amazonaws.com/)
 ### Features:
 
 **Search Form**
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/14242707.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/14242707.jpg)
 
 **Search Results**
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/11340494.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/11340494.jpg)
 
 **Details - Info**
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/30821153.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/30821153.jpg)
 
 **Details - Photos**
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/4671210.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/4671210.jpg)
 
 **Details - Map**
 
 Shows the place on the map 
 
 Search routes to the place 
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/37509790.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/37509790.jpg)
 
 **Details - Reviews**
 
 Show reviews on Google Place & Yelp
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/26865729.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/26865729.jpg)
 
 **Favorites**
+
 Implemented by LocalStorage, save your stared places on browser
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/36331208.jpg)
+
+![](http://dyns724re0kmw.cloudfront.net/36331208.jpg)

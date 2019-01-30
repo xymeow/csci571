@@ -6,30 +6,30 @@ GIF demo:
 
 **Search**
 
-![](http://oy479ek6q.bkt.gdipper.com/18-5-14/74877552.jpg)
+![](http://dyns724re0kmw.cloudfront.net/74877552.jpg)
 
 **Info**
 
-![](http://oy479ek6q.bkt.gdipper.com/info.gif)
+![](http://dyns724re0kmw.cloudfront.net/info.gif)
 
 **Photos**
 
-![](http://oy479ek6q.bkt.gdipper.com/photo.gif)
+![](http://dyns724re0kmw.cloudfront.net/photo.gif)
 
 **Map**
 
-![](http://oy479ek6q.bkt.gdipper.com/map.gif)
+![](http://dyns724re0kmw.cloudfront.net/map.gif)
 
 **Reviews**
 
-![](http://oy479ek6q.bkt.gdipper.com/review1.gif)
+![](http://dyns724re0kmw.cloudfront.net/review1.gif)
 
-![](http://oy479ek6q.bkt.gdipper.com/review2.gif)
+![](http://dyns724re0kmw.cloudfront.net/review2.gif)
 
 **Tweet**
 
-![](http://oy479ek6q.bkt.gdipper.com/tweet.gif)
+![](http://dyns724re0kmw.cloudfront.net/tweet.gif)
 
 **Favorite**
 
-![](http://oy479ek6q.bkt.gdipper.com/favorite.gif)
+![](http://dyns724re0kmw.cloudfront.net/favorite.gif)
